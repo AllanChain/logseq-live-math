@@ -81,14 +81,17 @@ function main () {
       floatContent.prepend(mfe)
       setTimeout(() => mfe.focus(), 100)
 
-      const done = async () => {
+      let done = false
+      const insertLaTeX = async () => {
+        if (done) return // avoid insert twice
+        done = true
         logseq.provideUI({ key: 'popup', template: '' }) // close popup
         await logseq.Editor.editBlock(event.uuid, { pos: caret.pos })
         setTimeout(() => logseq.Editor.insertAtEditingCursor(`$${mfe.value}$`), 100)
       }
-      mfe.addEventListener('change', done)
+      mfe.addEventListener('change', insertLaTeX)
       const btn = floatContent.querySelector<HTMLButtonElement>('button')
-      btn?.addEventListener('click', done)
+      btn?.addEventListener('click', insertLaTeX)
     })
   })
 }
