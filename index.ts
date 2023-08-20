@@ -72,6 +72,9 @@ function main () {
 
       if (floatContent === null) return
 
+      // avoid Logseq catching keydown
+      floatContent.addEventListener('keydown', (event) => event.stopPropagation())
+
       const mfe = new MathfieldElement()
       mfe.style.display = 'block'
       mfe.value = '\\frac{1}{2}'
