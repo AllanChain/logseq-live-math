@@ -21,13 +21,47 @@ function main () {
       logseq.UI.showMsg('Error getting cursor pos')
       return
     }
+    const clientWidth = parent.document.documentElement.clientWidth
+    const clientHeight = parent.document.documentElement.clientHeight
+    const popup = {
+      width: 200,
+      marginLeft: 10,
+      marginRight: 10,
+      left: 0,
+      top: 0,
+      bottom: 0,
+    }
+    const popupMinHeight = 100
+    const popupTopMargin = 20
+    popup.left = caret.rect.left + caret.left - popup.width / 2 - popup.marginLeft
+    popup.top = caret.rect.top + caret.top + popupTopMargin
+    console.log(clientWidth, popup.left)
+    if (popup.width + popup.width * 2 > clientWidth) {
+      popup.left = popup.marginLeft
+      popup.width = clientWidth - popup.marginLeft - popup.marginRight
+    } else {
+      if (popup.left < 0) {
+        popup.left = popup.marginLeft
+      }
+      if (popup.left + popup.width + popup.marginRight > clientWidth) {
+        popup.left = clientWidth - popup.marginRight - popup.width
+        console.log(popup.left)
+      }
+      if (popup.top + popupMinHeight > clientHeight) {
+        popup.bottom = clientHeight - popup.top + 2 * popupTopMargin
+        popup.top = 0
+      }
+    }
     logseq.provideUI({
       key: 'popup',
       template: '<button>DONE</button>',
       style: {
-        left: caret.rect.left + caret.left + 'px',
-        top: caret.rect.top + caret.top + 10 + 'px',
-        width: '200px',
+        left: popup.left + 'px',
+        top: popup.top ? popup.top + 'px' : 'initial',
+        bottom: popup.bottom ? popup.bottom + 'px' : 'initial',
+        width: popup.width + 'px',
+        marginLeft: popup.marginLeft + 'px',
+        marginRight: popup.marginRight + 'px',
       },
       attrs: {
         title: 'Live Math'
