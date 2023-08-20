@@ -1,0 +1,13 @@
+div[data-ref="logseq-live-math"] > .ls-ui-float-content button {
+  display: block;
+  margin: auto;
+  color: var(--ls-success-color);
+  font-weight: bold;
+} 
+
+div[data-ref="logseq-live-math"] math-field {
+  outline: none;
+  border-radius: 0;
+  color: var(--ls-primary-text-color);
+  background: var(--ls-secondary-background-color);
+}
