@@ -1,5 +1,5 @@
 import '@logseq/libs'
-import { MathfieldElement } from 'mathlive'
+import type { MathfieldElement } from 'mathlive'
 import styleCSS from './style.css'
 
 async function sleep(ms: number) {
@@ -73,7 +73,7 @@ async function openPopup(uuid: string) {
   // avoid Logseq catching keydown
   floatContent.addEventListener('keydown', (event) => event.stopPropagation())
 
-  const mfe = new MathfieldElement()
+  const mfe = parent.document.createElement('math-field') as MathfieldElement
   mfe.style.display = 'block'
   floatContent.prepend(mfe)
   await sleep(0)
