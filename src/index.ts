@@ -29,7 +29,6 @@ async function openPopup(uuid: string) {
   const popupTopMargin = 20
   popup.left = caret.rect.left + caret.left - popup.width / 2 - popup.marginLeft
   popup.top = caret.rect.top + caret.top + popupTopMargin
-  console.log(clientWidth, popup.left)
   if (popup.width + popup.width * 2 > clientWidth) {
     popup.left = popup.marginLeft
     popup.width = clientWidth - popup.marginLeft - popup.marginRight
@@ -39,7 +38,6 @@ async function openPopup(uuid: string) {
     }
     if (popup.left + popup.width + popup.marginRight > clientWidth) {
       popup.left = clientWidth - popup.marginRight - popup.width
-      console.log(popup.left)
     }
     if (popup.top + popupMinHeight > clientHeight) {
       popup.bottom = clientHeight - popup.top + 2 * popupTopMargin
@@ -114,7 +112,6 @@ async function openPopup(uuid: string) {
 
 function main() {
   injectMathLive()
-  console.log(styleCSS)
   logseq.provideStyle(styleCSS)
   logseq.Editor.registerSlashCommand('math', async (event) => {
     openPopup(event.uuid)
@@ -130,7 +127,6 @@ function main() {
       parent.document.getElementById('mock-text')?.textContent
     const block = await logseq.Editor.getCurrentBlock()
     if (block === null) return
-    console.log(caret.pos, blockContent)
     if (caret.pos > 1 && blockContent?.charAt(caret.pos - 2) === '$') {
       openPopup(block.uuid)
     }
