@@ -83,39 +83,42 @@ export async function openPopup(uuid: string) {
     logseq.UI.showMsg(`Fail to configure MathLive inline shortcuts: ${err}`)
   }
 
+  const textarea = parent.document.querySelector<HTMLTextAreaElement>(
+    `textarea[id$="${uuid}"]`,
+  )
+  if (textarea == null) {
+    logseq.UI.showMsg('Block changed!')
+    return
+  }
+  const blockContent = textarea.value
+  let dollarEnd = caret.pos
+  let dollarBegin = caret.pos
+  while (blockContent.charAt(dollarEnd) === '$') dollarEnd++
+  while (blockContent.charAt(dollarBegin - 1) === '$') dollarBegin--
+  const contentBefore = blockContent.substring(0, dollarBegin)
+  const contentAfter = blockContent.substring(dollarEnd, blockContent.length)
+  const delim = logseq.settings?.preferDisplay ? '$$' : '$'
+
   let done = false
-  const insertLaTeX = async () => {
+  mfe.addEventListener('input', async () => {
+    if (mfe.value.includes('placeholder')) return // not a complete formula
+    const contentBeforeCaret = contentBefore + `${delim}${mfe.value}${delim}`
+    await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
+  })
+  mfe.addEventListener('unmount', async () => {
+    if (done) return // don't clean up if inserted
+    await logseq.Editor.updateBlock(uuid, contentBefore + contentAfter)
+  })
+  mfe.addEventListener('change', async () => {
+    // Ignore focus lost
+    if (!mfe.hasFocus()) return
     if (done) return // avoid insert twice
     done = true
     logseq.provideUI({ key: 'popup', template: '' }) // close popup
-    const block = await logseq.Editor.getCurrentBlock()
-    if (block === null || block.uuid !== uuid) {
-      logseq.UI.showMsg('Block changed!')
-      return
-    }
-    let dollarEnd = caret.pos
-    let dollarBegin = caret.pos
-    while (block.content.charAt(dollarEnd) === '$') dollarEnd++
-    while (block.content.charAt(dollarBegin - 1) === '$') dollarBegin--
-    const delim = logseq.settings?.preferDisplay ? '$$' : '$'
-    const contentBefore =
-      block.content.substring(0, dollarBegin) + `${delim}${mfe.value}${delim}`
-    const contentAfter = block.content.substring(
-      dollarEnd,
-      block.content.length,
-    )
-    await logseq.Editor.updateBlock(uuid, contentBefore + contentAfter)
+    const contentBeforeCaret = contentBefore + `${delim}${mfe.value}${delim}`
+    await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
     // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
-    const textarea = parent.document.querySelector<HTMLTextAreaElement>(
-      `textarea[id$="${uuid}"]`,
-    )
-    if (textarea !== null) {
-      textarea.focus()
-      textarea.selectionEnd = contentBefore.length
-    }
-  }
-  mfe.addEventListener('change', () => {
-    // Ignore focus lost
-    if (mfe.hasFocus()) insertLaTeX()
+    textarea.focus()
+    textarea.selectionEnd = contentBefore.length
   })
 }
