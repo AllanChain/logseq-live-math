@@ -41,7 +41,7 @@ export async function openPopup(uuid: string) {
   }
   logseq.provideUI({
     key: 'popup',
-    template: '<button>DONE</button>',
+    template: '<span></span>',
     style: {
       left: popup.left + 'px',
       top: popup.top ? popup.top + 'px' : 'initial',
@@ -118,6 +118,4 @@ export async function openPopup(uuid: string) {
     // Ignore focus lost
     if (mfe.hasFocus()) insertLaTeX()
   })
-  const btn = floatContent.querySelector<HTMLButtonElement>('button')
-  btn?.addEventListener('click', insertLaTeX)
 }
