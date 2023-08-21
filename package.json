@@ -14,11 +14,18 @@
   },
   "devDependencies": {
     "@logseq/libs": "^0.0.15",
-    "esbuild": "^0.19.2"
+    "esbuild": "^0.19.2",
+    "prettier": "^3.0.2"
   },
   "logseq": {
     "id": "logseq-live-math",
     "main": "index.html",
     "icon": "icon.png"
+  },
+  "prettier": {
+    "max_line_length": 100,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }

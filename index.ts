@@ -2,10 +2,6 @@ import '@logseq/libs'
 import { MathfieldElement } from 'mathlive'
 import styleCSS from './style.css'
 
-async function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 function injectMathLive() {
   if (window.top === null) return
   const script = window.top.document.createElement('script')
@@ -13,7 +9,7 @@ function injectMathLive() {
   window.top.document.body.appendChild(script)
 }
 
-async function openPopup (uuid: string) {
+async function openPopup(uuid: string) {
   const caret = await logseq.Editor.getEditingCursorPosition()
   if (caret === null) {
     logseq.UI.showMsg('Error getting cursor pos')
@@ -62,11 +58,13 @@ async function openPopup (uuid: string) {
       marginRight: popup.marginRight + 'px',
     },
     attrs: {
-      title: 'Live Math'
-    }
+      title: 'Live Math',
+    },
   })
   setTimeout(() => {
-    const floatContent = parent.document.querySelector('#logseq-live-math--popup > .ls-ui-float-content')
+    const floatContent = parent.document.querySelector(
+      '#logseq-live-math--popup > .ls-ui-float-content',
+    )
 
     if (floatContent === null) return
 
@@ -85,21 +83,27 @@ async function openPopup (uuid: string) {
       logseq.provideUI({ key: 'popup', template: '' }) // close popup
       const block = await logseq.Editor.getCurrentBlock()
       if (block === null || block.uuid !== uuid) {
-        logseq.UI.showMsg("Block changed!")
+        logseq.UI.showMsg('Block changed!')
         return
       }
       let dollarEnd = caret.pos
       let dollarBegin = caret.pos
       while (block.content.charAt(dollarEnd) === '$') dollarEnd++
       while (block.content.charAt(dollarBegin - 1) === '$') dollarBegin--
-      const contentBeforeCaret = block.content.substring(0, dollarBegin) + `$${mfe.value}$`
-      const contentAfterCaret = block.content.substring(dollarEnd, block.content.length)
-      await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfterCaret)
+      const contentBefore =
+        block.content.substring(0, dollarBegin) + `$${mfe.value}$`
+      const contentAfter = block.content.substring(
+        dollarEnd,
+        block.content.length,
+      )
+      await logseq.Editor.updateBlock(uuid, contentBefore + contentAfter)
       // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
-      const textarea = parent.document.querySelector<HTMLTextAreaElement>(`textarea[id$="${uuid}"]`)
+      const textarea = parent.document.querySelector<HTMLTextAreaElement>(
+        `textarea[id$="${uuid}"]`,
+      )
       if (textarea !== null) {
         textarea.focus()
-        textarea.selectionEnd = contentBeforeCaret.length
+        textarea.selectionEnd = contentBefore.length
       }
     }
     mfe.addEventListener('change', insertLaTeX)
@@ -108,7 +112,7 @@ async function openPopup (uuid: string) {
   })
 }
 
-function main () {
+function main() {
   injectMathLive()
   console.log(styleCSS)
   logseq.provideStyle(styleCSS)
@@ -122,7 +126,8 @@ function main () {
     // HACK: use textContent from #mock-text for faster response
     // because block content from getCurrentBlock can be old.
     // i.e. if typed 'hello $$', it might return 'hello'.
-    const blockContent = parent.document.getElementById('mock-text')?.textContent
+    const blockContent =
+      parent.document.getElementById('mock-text')?.textContent
     const block = await logseq.Editor.getCurrentBlock()
     if (block === null) return
     console.log(caret.pos, blockContent)
