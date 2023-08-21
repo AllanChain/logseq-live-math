@@ -11,7 +11,8 @@ export const settingsConfig: SettingSchemaDesc[] = [
   },
   {
     title: 'Enable select-and-edit',
-    description: 'For example, when you select `$\\frac12$`, MathLive will pop up',
+    description:
+      'For example, when you select `$\\frac12$`, MathLive will pop up',
     key: 'selectEdit',
     type: 'boolean',
     default: 'true',
@@ -22,13 +23,7 @@ export const settingsConfig: SettingSchemaDesc[] = [
       'Configure [MathLive keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings)',
     key: 'keybindings',
     type: 'object',
-    default: [
-      {
-        key: 'alt+d',
-        ifMode: 'math',
-        command: ['insert', '\\mathrm{d}'],
-      },
-    ],
+    default: [],
   },
   {
     title: 'Inline shortcuts',
@@ -36,22 +31,6 @@ export const settingsConfig: SettingSchemaDesc[] = [
       'Configure [MathLive inline shortcuts](https://cortexjs.io/mathlive/guides/shortcuts/#inline-shortcuts)',
     key: 'inlineShortcuts',
     type: 'object',
-    default: {
-      dx: {
-        after:
-          'nothing+digit+function+frac+surd+binop+relop+punct+array+openfence+closefence+space+text',
-        value: '\\mathrm{d} x',
-      },
-      dy: {
-        after:
-          'nothing+digit+function+frac+surd+binop+relop+punct+array+openfence+closefence+space+text',
-        value: '\\mathrm{d} y',
-      },
-      dt: {
-        after:
-          'nothing+digit+function+frac+surd+binop+relop+punct+array+openfence+closefence+space+text',
-        value: '\\mathrm{d} t',
-      },
-    },
+    default: {},
   },
 ]

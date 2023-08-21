@@ -1,4 +1,5 @@
 import type { MathfieldElement } from 'mathlive'
+import { configureMF } from './ml-tweak'
 
 async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -69,19 +70,7 @@ export async function openPopup(uuid: string) {
   floatContent.prepend(mfe)
   await sleep(0)
   mfe.focus()
-  try {
-    mfe.keybindings = [...logseq.settings?.keybindings, ...mfe.keybindings]
-  } catch (err) {
-    logseq.UI.showMsg(`Fail to configure MathLive keybindings: ${err}`)
-  }
-  try {
-    mfe.inlineShortcuts = {
-      ...mfe.inlineShortcuts,
-      ...logseq.settings?.inlineShortcuts,
-    }
-  } catch (err) {
-    logseq.UI.showMsg(`Fail to configure MathLive inline shortcuts: ${err}`)
-  }
+  configureMF(mfe)
 
   const textarea = parent.document.querySelector<HTMLTextAreaElement>(
     `textarea[id$="${uuid}"]`,
