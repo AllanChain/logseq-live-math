@@ -70,7 +70,7 @@ export async function openPopup(uuid: string) {
   await sleep(0)
   mfe.focus()
   try {
-    mfe.keybindings = [...mfe.keybindings, ...logseq.settings?.keybindings]
+    mfe.keybindings = [...logseq.settings?.keybindings, ...mfe.keybindings]
   } catch (err) {
     logseq.UI.showMsg(`Fail to configure MathLive keybindings: ${err}`)
   }
