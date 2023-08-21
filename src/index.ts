@@ -2,6 +2,10 @@ import '@logseq/libs'
 import { MathfieldElement } from 'mathlive'
 import styleCSS from './style.css'
 
+async function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 function injectMathLive() {
   if (window.top === null) return
   const script = window.top.document.createElement('script')
@@ -59,55 +63,55 @@ async function openPopup(uuid: string) {
       title: 'Live Math',
     },
   })
-  setTimeout(() => {
-    const floatContent = parent.document.querySelector(
-      '#logseq-live-math--popup > .ls-ui-float-content',
-    )
+  await sleep(0)
+  const floatContent = parent.document.querySelector(
+    '#logseq-live-math--popup > .ls-ui-float-content',
+  )
 
-    if (floatContent === null) return
+  if (floatContent === null) return
 
-    // avoid Logseq catching keydown
-    floatContent.addEventListener('keydown', (event) => event.stopPropagation())
+  // avoid Logseq catching keydown
+  floatContent.addEventListener('keydown', (event) => event.stopPropagation())
 
-    const mfe = new MathfieldElement()
-    mfe.style.display = 'block'
-    floatContent.prepend(mfe)
-    setTimeout(() => mfe.focus(), 100)
+  const mfe = new MathfieldElement()
+  mfe.style.display = 'block'
+  floatContent.prepend(mfe)
+  await sleep(0)
+  mfe.focus()
 
-    let done = false
-    const insertLaTeX = async () => {
-      if (done) return // avoid insert twice
-      done = true
-      logseq.provideUI({ key: 'popup', template: '' }) // close popup
-      const block = await logseq.Editor.getCurrentBlock()
-      if (block === null || block.uuid !== uuid) {
-        logseq.UI.showMsg('Block changed!')
-        return
-      }
-      let dollarEnd = caret.pos
-      let dollarBegin = caret.pos
-      while (block.content.charAt(dollarEnd) === '$') dollarEnd++
-      while (block.content.charAt(dollarBegin - 1) === '$') dollarBegin--
-      const contentBefore =
-        block.content.substring(0, dollarBegin) + `$${mfe.value}$`
-      const contentAfter = block.content.substring(
-        dollarEnd,
-        block.content.length,
-      )
-      await logseq.Editor.updateBlock(uuid, contentBefore + contentAfter)
-      // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
-      const textarea = parent.document.querySelector<HTMLTextAreaElement>(
-        `textarea[id$="${uuid}"]`,
-      )
-      if (textarea !== null) {
-        textarea.focus()
-        textarea.selectionEnd = contentBefore.length
-      }
+  let done = false
+  const insertLaTeX = async () => {
+    if (done) return // avoid insert twice
+    done = true
+    logseq.provideUI({ key: 'popup', template: '' }) // close popup
+    const block = await logseq.Editor.getCurrentBlock()
+    if (block === null || block.uuid !== uuid) {
+      logseq.UI.showMsg('Block changed!')
+      return
     }
-    mfe.addEventListener('change', insertLaTeX)
-    const btn = floatContent.querySelector<HTMLButtonElement>('button')
-    btn?.addEventListener('click', insertLaTeX)
-  })
+    let dollarEnd = caret.pos
+    let dollarBegin = caret.pos
+    while (block.content.charAt(dollarEnd) === '$') dollarEnd++
+    while (block.content.charAt(dollarBegin - 1) === '$') dollarBegin--
+    const contentBefore =
+      block.content.substring(0, dollarBegin) + `$${mfe.value}$`
+    const contentAfter = block.content.substring(
+      dollarEnd,
+      block.content.length,
+    )
+    await logseq.Editor.updateBlock(uuid, contentBefore + contentAfter)
+    // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
+    const textarea = parent.document.querySelector<HTMLTextAreaElement>(
+      `textarea[id$="${uuid}"]`,
+    )
+    if (textarea !== null) {
+      textarea.focus()
+      textarea.selectionEnd = contentBefore.length
+    }
+  }
+  mfe.addEventListener('change', insertLaTeX)
+  const btn = floatContent.querySelector<HTMLButtonElement>('button')
+  btn?.addEventListener('click', insertLaTeX)
 }
 
 function main() {
