@@ -14,8 +14,6 @@ function injectMathLive() {
 }
 
 async function openPopup (uuid: string) {
-  const block = await logseq.Editor.getBlock(uuid)
-  if (block === null) return
   const caret = await logseq.Editor.getEditingCursorPosition()
   if (caret === null) {
     logseq.UI.showMsg('Error getting cursor pos')
@@ -85,8 +83,24 @@ async function openPopup (uuid: string) {
       if (done) return // avoid insert twice
       done = true
       logseq.provideUI({ key: 'popup', template: '' }) // close popup
-      await logseq.Editor.editBlock(uuid, { pos: caret.pos })
-      setTimeout(() => logseq.Editor.insertAtEditingCursor(`$${mfe.value}$`), 100)
+      const block = await logseq.Editor.getCurrentBlock()
+      if (block === null || block.uuid !== uuid) {
+        logseq.UI.showMsg("Block changed!")
+        return
+      }
+      let dollarEnd = caret.pos
+      let dollarBegin = caret.pos
+      while (block.content.charAt(dollarEnd) === '$') dollarEnd++
+      while (block.content.charAt(dollarBegin - 1) === '$') dollarBegin--
+      const contentBeforeCaret = block.content.substring(0, dollarBegin) + `$${mfe.value}$`
+      const contentAfterCaret = block.content.substring(dollarEnd, block.content.length)
+      await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfterCaret)
+      // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
+      const textarea = parent.document.querySelector<HTMLTextAreaElement>(`textarea[id$="${uuid}"]`)
+      if (textarea !== null) {
+        textarea.focus()
+        textarea.selectionEnd = contentBeforeCaret.length
+      }
     }
     mfe.addEventListener('change', insertLaTeX)
     const btn = floatContent.querySelector<HTMLButtonElement>('button')
