@@ -11,10 +11,17 @@ export const settingsConfig: SettingSchemaDesc[] = [
   },
   {
     title: 'Key bindings',
-    description: 'Configure [MathLive keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings)',
+    description:
+      'Configure [MathLive keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings)',
     key: 'keybindings',
     type: 'object',
-    default: [],
+    default: [
+      {
+        key: 'alt+d',
+        ifMode: 'math',
+        command: ['insert', '\\mathrm{d}'],
+      },
+    ],
   },
   {
     title: 'Inline shortcuts',
@@ -22,6 +29,22 @@ export const settingsConfig: SettingSchemaDesc[] = [
       'Configure [MathLive inline shortcuts](https://cortexjs.io/mathlive/guides/shortcuts/#inline-shortcuts)',
     key: 'inlineShortcuts',
     type: 'object',
-    default: {},
+    default: {
+      dx: {
+        after:
+          'nothing+digit+function+frac+surd+binop+relop+punct+array+openfence+closefence+space+text',
+        value: '\\mathrm{d} x',
+      },
+      dy: {
+        after:
+          'nothing+digit+function+frac+surd+binop+relop+punct+array+openfence+closefence+space+text',
+        value: '\\mathrm{d} y',
+      },
+      dt: {
+        after:
+          'nothing+digit+function+frac+surd+binop+relop+punct+array+openfence+closefence+space+text',
+        value: '\\mathrm{d} t',
+      },
+    },
   },
 ]
