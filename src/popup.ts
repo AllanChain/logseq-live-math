@@ -91,11 +91,14 @@ export async function openPopup(uuid: string) {
     return
   }
   const blockContent = textarea.value
-  let dollarEnd = caret.pos
-  let dollarBegin = caret.pos
+  let dollarEnd = textarea.selectionEnd
+  let dollarStart = textarea.selectionStart
+  const originalContent = textarea.value.substring(dollarStart, dollarEnd)
+  mfe.value = originalContent
+
   while (blockContent.charAt(dollarEnd) === '$') dollarEnd++
-  while (blockContent.charAt(dollarBegin - 1) === '$') dollarBegin--
-  const contentBefore = blockContent.substring(0, dollarBegin)
+  while (blockContent.charAt(dollarStart - 1) === '$') dollarStart--
+  const contentBefore = blockContent.substring(0, dollarStart)
   const contentAfter = blockContent.substring(dollarEnd, blockContent.length)
   const delim = logseq.settings?.preferDisplay ? '$$' : '$'
 
@@ -107,7 +110,10 @@ export async function openPopup(uuid: string) {
   })
   mfe.addEventListener('unmount', async () => {
     if (done) return // don't clean up if inserted
-    await logseq.Editor.updateBlock(uuid, contentBefore + contentAfter)
+    await logseq.Editor.updateBlock(
+      uuid,
+      contentBefore + originalContent + contentAfter,
+    )
   })
   mfe.addEventListener('change', async () => {
     // Ignore focus lost
