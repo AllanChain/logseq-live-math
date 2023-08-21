@@ -8,9 +8,9 @@ async function sleep(ms: number) {
 
 function injectMathLive() {
   if (window.top === null) return
-  const script = window.top.document.createElement('script')
-  script.setAttribute('src', `${logseq.baseInfo.lsr}dist/mathlive.min.js`)
-  window.top.document.body.appendChild(script)
+  const script = parent.document.createElement('script')
+  script.setAttribute('src', `${logseq.baseInfo.lsr}dist/parent.js`)
+  parent.document.body.appendChild(script)
 }
 
 async function openPopup(uuid: string) {
