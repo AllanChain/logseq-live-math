@@ -1,10 +1,24 @@
-div[data-ref="logseq-live-math"] > .ls-ui-float-content {
+div[data-ref='logseq-live-math'] > .ls-ui-float-content {
   background-color: var(--ls-secondary-background-color);
 }
 
-div[data-ref="logseq-live-math"] math-field {
+div[data-ref='logseq-live-math'] math-field {
   outline: none;
   border-radius: 0;
   color: var(--ls-primary-text-color);
   background-color: var(--ls-secondary-background-color);
+}
+
+div#mathlive-suggestion-popover.top-tip {
+  background-color: var(--ls-primary-background-color);
+  z-index: var(--ls-z-index-level-2);
+}
+
+div#mathlive-suggestion-popover.top-tip::after {
+  border-bottom-color: var(--ls-primary-background-color);
+}
+
+li.ML__popover__current {
+  background-color: var(--ls-selection-background-color);
+  color: var(--ls-selection-text-color);
 }
