@@ -114,7 +114,10 @@ export async function openPopup(uuid: string) {
       textarea.selectionEnd = contentBefore.length
     }
   }
-  mfe.addEventListener('change', insertLaTeX)
+  mfe.addEventListener('change', () => {
+    // Ignore focus lost
+    if (mfe.hasFocus()) insertLaTeX()
+  })
   const btn = floatContent.querySelector<HTMLButtonElement>('button')
   btn?.addEventListener('click', insertLaTeX)
 }
