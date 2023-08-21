@@ -13,7 +13,7 @@ export async function openPopup(uuid: string) {
   const clientWidth = parent.document.documentElement.clientWidth
   const clientHeight = parent.document.documentElement.clientHeight
   const popup = {
-    width: 200,
+    width: 400,
     marginLeft: 10,
     marginRight: 10,
     left: 0,
@@ -24,7 +24,7 @@ export async function openPopup(uuid: string) {
   const popupTopMargin = 20
   popup.left = caret.rect.left + caret.left - popup.width / 2 - popup.marginLeft
   popup.top = caret.rect.top + caret.top + popupTopMargin
-  if (popup.width + popup.width * 2 > clientWidth) {
+  if (popup.width + popup.marginLeft + popup.marginRight > clientWidth) {
     popup.left = popup.marginLeft
     popup.width = clientWidth - popup.marginLeft - popup.marginRight
   } else {
@@ -34,10 +34,10 @@ export async function openPopup(uuid: string) {
     if (popup.left + popup.width + popup.marginRight > clientWidth) {
       popup.left = clientWidth - popup.marginRight - popup.width
     }
-    if (popup.top + popupMinHeight > clientHeight) {
-      popup.bottom = clientHeight - popup.top + 2 * popupTopMargin
-      popup.top = 0
-    }
+  }
+  if (popup.top + popupMinHeight > clientHeight) {
+    popup.bottom = clientHeight - popup.top + 2 * popupTopMargin
+    popup.top = 0
   }
   logseq.provideUI({
     key: 'popup',
