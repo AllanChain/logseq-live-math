@@ -17,13 +17,15 @@ function main() {
   logseq.Editor.registerSlashCommand('math', async (event) => {
     openPopup(event.uuid)
   })
-  logseq.Editor.onInputSelectionEnd(async (event) => {
-    if (event.text.length <= 2) return
-    if (!(event.text.startsWith('$') && event.text.endsWith('$'))) return
-    const block = await logseq.Editor.getCurrentBlock()
-    if (block === null) return
-    openPopup(block.uuid)
-  })
+  if (logseq.settings?.selectEdit) {
+    logseq.Editor.onInputSelectionEnd(async (event) => {
+      if (event.text.length <= 2) return
+      if (!(event.text.startsWith('$') && event.text.endsWith('$'))) return
+      const block = await logseq.Editor.getCurrentBlock()
+      if (block === null) return
+      openPopup(block.uuid)
+    })
+  }
   parent.addEventListener('keydown', async (event) => {
     if (event.key !== '$') return
     const caret = await logseq.Editor.getEditingCursorPosition()

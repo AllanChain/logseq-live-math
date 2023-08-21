@@ -10,6 +10,13 @@ export const settingsConfig: SettingSchemaDesc[] = [
     default: false,
   },
   {
+    title: 'Enable select-and-edit',
+    description: 'For example, when you select `$\\frac12$`, MathLive will pop up',
+    key: 'selectEdit',
+    type: 'boolean',
+    default: 'true',
+  },
+  {
     title: 'Key bindings',
     description:
       'Configure [MathLive keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings)',
