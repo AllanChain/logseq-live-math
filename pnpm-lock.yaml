@@ -13,6 +13,9 @@ devDependencies:
   '@logseq/libs':
     specifier: ^0.0.15
     version: 0.0.15
+  '@tsconfig/recommended':
+    specifier: ^1.0.2
+    version: 1.0.2
   esbuild:
     specifier: ^0.19.2
     version: 0.19.2
@@ -241,6 +244,10 @@ packages:
       snake-case: 3.0.4
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@tsconfig/recommended@1.0.2:
+    resolution: {integrity: sha512-dbHBtbWBOjq0/otpopAE02NT2Cm05Qe2JsEKeCf/wjSYbI2hz8nCqnpnOJWHATgjDz4fd3dchs3Wy1gQGjfN6w==}
     dev: true
 
   /complex.js@2.1.1:

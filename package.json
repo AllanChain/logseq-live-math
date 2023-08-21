@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@logseq/libs": "^0.0.15",
+    "@tsconfig/recommended": "^1.0.2",
     "esbuild": "^0.19.2",
     "prettier": "^3.0.2"
   },

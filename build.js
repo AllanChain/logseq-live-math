@@ -15,7 +15,7 @@ fs.copyFileSync(
 )
 
 const context = await esbuild.context({
-  entryPoints: ['index.ts'],
+  entryPoints: ['src/index.ts'],
   minify: true,
   bundle: true,
   loader: {
