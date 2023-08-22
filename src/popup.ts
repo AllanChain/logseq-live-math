@@ -114,6 +114,6 @@ export async function openPopup(uuid: string) {
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
     // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
     textarea.focus()
-    textarea.selectionEnd = contentBefore.length
+    textarea.selectionEnd = contentBeforeCaret.length
   })
 }
