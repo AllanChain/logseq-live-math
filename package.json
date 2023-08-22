@@ -10,7 +10,7 @@
   "author": "Allan Chain",
   "license": "MIT",
   "dependencies": {
-    "mathlive": "^0.93.0"
+    "mathlive": "^0.95.5"
   },
   "devDependencies": {
     "@logseq/libs": "^0.0.15",
