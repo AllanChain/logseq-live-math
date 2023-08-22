@@ -1,5 +1,5 @@
 <h1>
-  <img src="icon.png" width="40">
+  <img src="icon.svg" width="40">
   logseq-live-math
 </h1>
 

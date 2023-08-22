@@ -19,9 +19,10 @@
     "prettier": "^3.0.2"
   },
   "logseq": {
+    "title": "Live Math",
     "id": "logseq-live-math",
     "main": "index.html",
-    "icon": "icon.png"
+    "icon": "icon.svg"
   },
   "prettier": {
     "max_line_length": 100,
