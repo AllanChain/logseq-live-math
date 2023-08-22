@@ -7,7 +7,7 @@ Type LaTeX in live mode!
 
 logseq-live-math integrates [MathLive](https://cortexjs.io/mathlive/) into Logseq, providing a better experience using Logseq with a lot of math.
 
-![live-math-demo](https://github.com/AllanChain/logseq-live-math/assets/36528777/e5b7c032-272a-426b-ab84-5ccbe7512ae0)
+![live-math-demo](.github/live-math-demo.gif)
 
 The above example uses [logseq-display-math](https://github.com/AllanChain/logseq-display-math) to render inline math in display style.
 
