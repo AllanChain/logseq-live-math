@@ -54,6 +54,8 @@ export async function openPopup(uuid: string) {
   const delim = logseq.settings?.preferDisplay ? '$$' : '$'
 
   let done = false
+  parent.addEventListener('resize', applyAlign)
+  popupContent.querySelector('.draggable-handle')?.addEventListener('mouseup', applyAlign)
   mfe.addEventListener('input', async () => {
     await applyAlign()
     if (mfe.value.includes('placeholder')) return // not a complete formula
@@ -61,6 +63,7 @@ export async function openPopup(uuid: string) {
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
   })
   mfe.addEventListener('unmount', async () => {
+    parent.removeEventListener('resize', applyAlign)
     if (done) return // don't clean up if inserted
     await logseq.Editor.updateBlock(
       uuid,
@@ -91,10 +94,7 @@ interface PopupAlign {
 }
 
 function parseStyle(s: string): number {
-  if (s.match(/^[.\d]+px$/)) {
-    return parseInt(s.substring(0, s.length - 2), 10)
-  }
-  return 0
+  return parseInt(s.substring(0, s.length - 2), 10)
 }
 
 async function calcAlign(): Promise<UIBaseOptions['style']> {
@@ -132,9 +132,19 @@ async function calcAlign(): Promise<UIBaseOptions['style']> {
         : popupContent.clientWidth,
       marginLeft: parseStyle(popupContent.style.marginLeft),
       marginRight: parseStyle(popupContent.style.marginLeft),
-      left: parseStyle(popupContent.style.left),
-      top: parseStyle(popupContent.style.top),
-      bottom: parseStyle(popupContent.style.bottom),
+      left:
+        parseStyle(popupContent.style.left) +
+        parseInt(popupContent.dataset.dx ?? '0'),
+      top:
+        popupContent.style.top === 'initial'
+          ? 0
+          : parseStyle(popupContent.style.top) +
+            parseInt(popupContent.dataset.dy ?? '0'),
+      bottom:
+        popupContent.style.bottom === 'initial'
+          ? 0
+          : parseStyle(popupContent.style.bottom) -
+            parseInt(popupContent.dataset.dy ?? '0'),
     }
     console.log(popup)
   }
@@ -149,7 +159,9 @@ async function calcAlign(): Promise<UIBaseOptions['style']> {
       popup.left = clientWidth - popup.marginRight - popup.width
     }
   }
-  if (popup.top + popupMinHeight > clientHeight) {
+  if (popup.top < 0) popup.top = popupTopMargin
+  if (popup.bottom < 0) popup.bottom = popupTopMargin
+  if (popup.top !== 0 && popup.top + popupMinHeight > clientHeight) {
     popup.bottom = clientHeight - popup.top + 2 * popupTopMargin
     popup.top = 0
   }
@@ -172,4 +184,7 @@ async function applyAlign() {
   Object.entries(styles).forEach(([k, v]) => {
     popupContent.style.setProperty(k, v)
   })
+  popupContent.dataset.dx = '0'
+  popupContent.dataset.dy = '0'
+  popupContent.style.transform = 'unset'
 }
