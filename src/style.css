@@ -7,6 +7,36 @@ div[data-ref='logseq-live-math'] math-field {
   border-radius: 0;
   color: var(--ls-primary-text-color);
   background-color: var(--ls-secondary-background-color);
+  --contains-highlight-background-color: var(--ls-block-highlight-color);
+  --selection-background-color: var(--ls-selection-background-color);
+  --primary: var(--ls-primary-theme-color, var(--ls-wb-text-color-blue));
+}
+
+div[data-ref='logseq-live-math'] math-field::part(virtual-keyboard-toggle):hover {
+  background-color: var(--ls-primary-background-color);
+  color: var(--ls-primary-text-color);
+}
+
+div[data-ref='logseq-live-math']
+  math-field::part(virtual-keyboard-toggle):hover::after {
+  /* Hide 'Toggle Virtual Keyboard' tooltip which spoils popup layout */
+  display: none;
+}
+
+.ML__keyboard {
+  --keyboard-background: var(--ls-secondary-background-color);
+  --keyboard-accent-color: var(
+    --ls-primary-theme-color,
+    var(--ls-wb-text-color-blue)
+  );
+  --keyboard-toolbar-text: var(--ls-primary-text-color);
+  --keyboard-toolbar-background-hover: var(
+    --ls-primary-background-color
+  ) !important;
+  --keycap-background: var(--ls-primary-background-color);
+  --keycap-text: var(--ls-secondary-text-color);
+  --keycap-secondary-background: var(--ls-tertiary-background-color);
+  --keycap-secondary-text: var(--ls-secondary-text-color);
 }
 
 div#mathlive-suggestion-popover.top-tip {
