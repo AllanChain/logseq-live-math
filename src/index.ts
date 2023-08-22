@@ -26,21 +26,23 @@ function main() {
       openPopup(block.uuid)
     })
   }
-  parent.addEventListener('keydown', async (event) => {
-    if (event.key !== '$') return
-    const caret = await logseq.Editor.getEditingCursorPosition()
-    if (caret === null) return
-    // HACK: use textContent from #mock-text for faster response
-    // because block content from getCurrentBlock can be old.
-    // i.e. if typed 'hello $$', it might return 'hello'.
-    const blockContent =
-      parent.document.getElementById('mock-text')?.textContent
-    const block = await logseq.Editor.getCurrentBlock()
-    if (block === null) return
-    if (caret.pos > 1 && blockContent?.charAt(caret.pos - 2) === '$') {
-      openPopup(block.uuid)
-    }
-  })
+  if (logseq.settings?.dollarTrigger) {
+    parent.addEventListener('keydown', async (event) => {
+      if (event.key !== '$') return
+      const caret = await logseq.Editor.getEditingCursorPosition()
+      if (caret === null) return
+      // HACK: use textContent from #mock-text for faster response
+      // because block content from getCurrentBlock can be old.
+      // i.e. if typed 'hello $$', it might return 'hello'.
+      const blockContent =
+        parent.document.getElementById('mock-text')?.textContent
+      const block = await logseq.Editor.getCurrentBlock()
+      if (block === null) return
+      if (caret.pos > 1 && blockContent?.charAt(caret.pos - 2) === '$') {
+        openPopup(block.uuid)
+      }
+    })
+  }
 }
 
 logseq.ready(main).catch(logseq.UI.showMsg)

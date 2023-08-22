@@ -2,6 +2,14 @@ import { SettingSchemaDesc } from '@logseq/libs/dist/LSPlugin.user'
 
 export const settingsConfig: SettingSchemaDesc[] = [
   {
+    title: 'Enable `$$` trigger',
+    description:
+      'MathLive will popup if `$$` is typed. You can still use inline math by unchecking `preferDisplay`',
+    key: 'dollarTrigger',
+    type: 'boolean',
+    default: true,
+  },
+  {
     title: 'Prefer display mode',
     description:
       'When enabled, math will be inserted as display mode, i.e. `$$`',
@@ -15,7 +23,7 @@ export const settingsConfig: SettingSchemaDesc[] = [
       'For example, when you select `$\\frac12$`, MathLive will pop up',
     key: 'selectEdit',
     type: 'boolean',
-    default: 'true',
+    default: true,
   },
   {
     title: 'Key bindings',
