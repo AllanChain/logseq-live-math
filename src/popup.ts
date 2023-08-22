@@ -1,3 +1,4 @@
+import type { UIBaseOptions } from '@logseq/libs/dist/LSPlugin.user'
 import type { MathfieldElement } from 'mathlive'
 import { configureMF } from './ml-tweak'
 
@@ -6,62 +7,21 @@ async function sleep(ms: number) {
 }
 
 export async function openPopup(uuid: string) {
-  const caret = await logseq.Editor.getEditingCursorPosition()
-  if (caret === null) {
-    logseq.UI.showMsg('Error getting cursor pos')
-    return
-  }
-  const clientWidth = parent.document.documentElement.clientWidth
-  const clientHeight = parent.document.documentElement.clientHeight
-  const popup = {
-    width: 400,
-    marginLeft: 10,
-    marginRight: 10,
-    left: 0,
-    top: 0,
-    bottom: 0,
-  }
-  const popupMinHeight = 100
-  const popupTopMargin = 20
-  popup.left = caret.rect.left + caret.left - popup.width / 2 - popup.marginLeft
-  popup.top = caret.rect.top + caret.top + popupTopMargin
-  if (popup.width + popup.marginLeft + popup.marginRight > clientWidth) {
-    popup.left = popup.marginLeft
-    popup.width = clientWidth - popup.marginLeft - popup.marginRight
-  } else {
-    if (popup.left < 0) {
-      popup.left = popup.marginLeft
-    }
-    if (popup.left + popup.width + popup.marginRight > clientWidth) {
-      popup.left = clientWidth - popup.marginRight - popup.width
-    }
-  }
-  if (popup.top + popupMinHeight > clientHeight) {
-    popup.bottom = clientHeight - popup.top + 2 * popupTopMargin
-    popup.top = 0
-  }
   logseq.provideUI({
     key: 'popup',
     template: '<span></span>',
-    style: {
-      left: popup.left + 'px',
-      top: popup.top ? popup.top + 'px' : 'initial',
-      bottom: popup.bottom ? popup.bottom + 'px' : 'initial',
-      width: popup.width + 'px',
-      marginLeft: popup.marginLeft + 'px',
-      marginRight: popup.marginRight + 'px',
-    },
+    style: await calcAlign(),
     attrs: {
       title: 'Live Math',
     },
   })
   await sleep(0)
-  const floatContent = parent.document.querySelector(
-    '#logseq-live-math--popup > .ls-ui-float-content',
-  )
-
+  const popupContent = parent.document.getElementById('logseq-live-math--popup')
+  if (popupContent === null) return
+  const floatContent = popupContent.querySelector('.ls-ui-float-content')
   if (floatContent === null) return
-
+  // keep block in editing mode after mousedown
+  popupContent.addEventListener('mousedown', (event) => event.stopPropagation())
   // avoid Logseq catching keydown
   floatContent.addEventListener('keydown', (event) => event.stopPropagation())
 
@@ -84,6 +44,8 @@ export async function openPopup(uuid: string) {
   let dollarStart = textarea.selectionStart
   const originalContent = textarea.value.substring(dollarStart, dollarEnd)
   mfe.value = originalContent
+  await sleep(0)
+  applyAlign() // Resize box based on originalContent
 
   while (blockContent.charAt(dollarEnd) === '$') dollarEnd++
   while (blockContent.charAt(dollarStart - 1) === '$') dollarStart--
@@ -93,6 +55,7 @@ export async function openPopup(uuid: string) {
 
   let done = false
   mfe.addEventListener('input', async () => {
+    await applyAlign()
     if (mfe.value.includes('placeholder')) return // not a complete formula
     const contentBeforeCaret = contentBefore + `${delim}${mfe.value}${delim}`
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
@@ -115,5 +78,98 @@ export async function openPopup(uuid: string) {
     // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
     textarea.focus()
     textarea.selectionEnd = contentBeforeCaret.length
+  })
+}
+
+interface PopupAlign {
+  width: number
+  marginLeft: number
+  marginRight: number
+  left: number
+  top: number
+  bottom: number
+}
+
+function parseStyle(s: string): number {
+  if (s.match(/^[.\d]+px$/)) {
+    return parseInt(s.substring(0, s.length - 2), 10)
+  }
+  return 0
+}
+
+async function calcAlign(): Promise<UIBaseOptions['style']> {
+  const popupMinHeight = 100
+  const popupTopMargin = 20
+  const popupDefaultWidth = 300
+  const clientWidth = parent.document.documentElement.clientWidth
+  const clientHeight = parent.document.documentElement.clientHeight
+  const popupContent = parent.document.getElementById('logseq-live-math--popup')
+  let popup: PopupAlign
+  if (popupContent === null) {
+    const caret = await logseq.Editor.getEditingCursorPosition()
+    if (caret === null) {
+      console.log('Error getting cursor pos')
+      return
+    }
+    popup = {
+      width: popupDefaultWidth,
+      marginLeft: 10,
+      marginRight: 10,
+      left: 0,
+      top: 0,
+      bottom: 0,
+    }
+    popup.left =
+      caret.rect.left + caret.left - popup.width / 4 - popup.marginLeft
+    popup.top = caret.rect.top + caret.top + popupTopMargin
+  } else {
+    const scrollWidth = popupContent
+      .querySelector('math-field')
+      ?.shadowRoot?.querySelector('.ML__mathlive')?.scrollWidth
+    popup = {
+      width: scrollWidth
+        ? Math.max(popupDefaultWidth, scrollWidth + 50)
+        : popupContent.clientWidth,
+      marginLeft: parseStyle(popupContent.style.marginLeft),
+      marginRight: parseStyle(popupContent.style.marginLeft),
+      left: parseStyle(popupContent.style.left),
+      top: parseStyle(popupContent.style.top),
+      bottom: parseStyle(popupContent.style.bottom),
+    }
+    console.log(popup)
+  }
+  if (popup.width + popup.marginLeft + popup.marginRight > clientWidth) {
+    popup.left = 0
+    popup.width = clientWidth - popup.marginLeft - popup.marginRight
+  } else {
+    if (popup.left < 0) {
+      popup.left = popup.marginLeft
+    }
+    if (popup.left + popup.width + popup.marginRight > clientWidth) {
+      popup.left = clientWidth - popup.marginRight - popup.width
+    }
+  }
+  if (popup.top + popupMinHeight > clientHeight) {
+    popup.bottom = clientHeight - popup.top + 2 * popupTopMargin
+    popup.top = 0
+  }
+  return {
+    left: popup.left + 'px',
+    top: popup.top ? popup.top + 'px' : 'initial',
+    bottom: popup.bottom ? popup.bottom + 'px' : 'initial',
+    width: popup.width + 'px',
+    marginLeft: popup.marginLeft + 'px',
+    marginRight: popup.marginRight + 'px',
+  }
+}
+
+async function applyAlign() {
+  const styles = await calcAlign()
+  if (styles === undefined) return
+  const popupContent = parent.document.getElementById('logseq-live-math--popup')
+  if (popupContent === null) return
+
+  Object.entries(styles).forEach(([k, v]) => {
+    popupContent.style.setProperty(k, v)
   })
 }
