@@ -38,9 +38,7 @@ export async function openPopup(
   mfe.focus()
   configureMF(mfe)
 
-  const textarea = parent.document.querySelector<HTMLTextAreaElement>(
-    `textarea[id$="${uuid}"]`,
-  )
+  const textarea = parent.document.querySelector<HTMLTextAreaElement>(`textarea[id$="${uuid}"]`)
   if (textarea == null) {
     logseq.UI.showMsg('Block changed!')
     return
@@ -61,9 +59,7 @@ export async function openPopup(
 
   let done = false
   parent.addEventListener('resize', applyAlign)
-  popupContent
-    .querySelector('.draggable-handle')
-    ?.addEventListener('mouseup', applyAlign)
+  popupContent.querySelector('.draggable-handle')?.addEventListener('mouseup', applyAlign)
   mfe.addEventListener('input', async () => {
     await applyAlign()
     if (mfe.value.includes('placeholder')) return // not a complete formula
@@ -73,10 +69,7 @@ export async function openPopup(
   mfe.addEventListener('unmount', async () => {
     parent.removeEventListener('resize', applyAlign)
     if (done) return // don't clean up if inserted
-    await logseq.Editor.updateBlock(
-      uuid,
-      contentBefore + originalContent + contentAfter,
-    )
+    await logseq.Editor.updateBlock(uuid, contentBefore + originalContent + contentAfter)
   })
   mfe.addEventListener('change', async () => {
     // Ignore focus lost
@@ -127,32 +120,25 @@ async function calcAlign(): Promise<UIBaseOptions['style']> {
       top: 0,
       bottom: 0,
     }
-    popup.left =
-      caret.rect.left + caret.left - popup.width / 4 - popup.marginLeft
+    popup.left = caret.rect.left + caret.left - popup.width / 4 - popup.marginLeft
     popup.top = caret.rect.top + caret.top + popupTopMargin
   } else {
     const scrollWidth = popupContent
       .querySelector('math-field')
       ?.shadowRoot?.querySelector('.ML__mathlive')?.scrollWidth
     popup = {
-      width: scrollWidth
-        ? Math.max(popupDefaultWidth, scrollWidth + 50)
-        : popupContent.clientWidth,
+      width: scrollWidth ? Math.max(popupDefaultWidth, scrollWidth + 50) : popupContent.clientWidth,
       marginLeft: parseStyle(popupContent.style.marginLeft),
       marginRight: parseStyle(popupContent.style.marginLeft),
-      left:
-        parseStyle(popupContent.style.left) +
-        parseInt(popupContent.dataset.dx ?? '0'),
+      left: parseStyle(popupContent.style.left) + parseInt(popupContent.dataset.dx ?? '0'),
       top:
         popupContent.style.top === 'initial'
           ? 0
-          : parseStyle(popupContent.style.top) +
-            parseInt(popupContent.dataset.dy ?? '0'),
+          : parseStyle(popupContent.style.top) + parseInt(popupContent.dataset.dy ?? '0'),
       bottom:
         popupContent.style.bottom === 'initial'
           ? 0
-          : parseStyle(popupContent.style.bottom) -
-            parseInt(popupContent.dataset.dy ?? '0'),
+          : parseStyle(popupContent.style.bottom) - parseInt(popupContent.dataset.dy ?? '0'),
     }
     console.log(popup)
   }

@@ -18,13 +18,16 @@ export function configureMF(mfe: MathfieldElement) {
   }
   try {
     mfe.inlineShortcuts = {
-      ...Object.entries(mfe.inlineShortcuts).reduce((shortcuts, [k, v]) => {
-        if (typeof v === 'object') {
-          v.value = v.value.replace('differentialD', 'mathrm{d}')
-        }
-        shortcuts[k] = v
-        return shortcuts
-      }, {} as typeof mfe.inlineShortcuts),
+      ...Object.entries(mfe.inlineShortcuts).reduce(
+        (shortcuts, [k, v]) => {
+          if (typeof v === 'object') {
+            v.value = v.value.replace('differentialD', 'mathrm{d}')
+          }
+          shortcuts[k] = v
+          return shortcuts
+        },
+        {} as typeof mfe.inlineShortcuts,
+      ),
       ...mfe.inlineShortcuts,
       ...logseq.settings?.inlineShortcuts,
     }

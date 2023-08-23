@@ -37,8 +37,7 @@ function main() {
       // HACK: use textContent from #mock-text for faster response
       // because block content from getCurrentBlock can be old.
       // i.e. if typed 'hello $$', it might return 'hello'.
-      const blockContent =
-        parent.document.getElementById('mock-text')?.textContent
+      const blockContent = parent.document.getElementById('mock-text')?.textContent
       const block = await logseq.Editor.getCurrentBlock()
       if (block === null) return
       if (caret.pos > 1 && blockContent?.charAt(caret.pos - 2) === '$') {

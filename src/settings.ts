@@ -11,16 +11,14 @@ export const settingsConfig: SettingSchemaDesc[] = [
   },
   {
     title: 'Prefer display mode',
-    description:
-      'When enabled, math will be inserted as display mode, i.e. `$$`',
+    description: 'When enabled, math will be inserted as display mode, i.e. `$$`',
     key: 'preferDisplay',
     type: 'boolean',
     default: false,
   },
   {
     title: 'Enable select-and-edit',
-    description:
-      'For example, when you select `$\\frac12$`, MathLive will pop up',
+    description: 'For example, when you select `$\\frac12$`, MathLive will pop up',
     key: 'selectEdit',
     type: 'boolean',
     default: true,

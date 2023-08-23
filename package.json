@@ -25,7 +25,7 @@
     "icon": "icon.svg"
   },
   "prettier": {
-    "max_line_length": 100,
+    "printWidth": 100,
     "semi": false,
     "singleQuote": true,
     "trailingComma": "all"
