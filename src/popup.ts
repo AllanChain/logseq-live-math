@@ -109,7 +109,7 @@ async function calcAlign(): Promise<UIBaseOptions['style']> {
   if (popupContent === null) {
     const caret = await logseq.Editor.getEditingCursorPosition()
     if (caret === null) {
-      console.log('Error getting cursor pos')
+      console.error('Error getting cursor pos')
       return
     }
     popup = {
@@ -140,7 +140,6 @@ async function calcAlign(): Promise<UIBaseOptions['style']> {
           ? 0
           : parseStyle(popupContent.style.bottom) - parseInt(popupContent.dataset.dy ?? '0'),
     }
-    console.log(popup)
   }
   if (popup.width + popup.marginLeft + popup.marginRight > clientWidth) {
     popup.left = 0
