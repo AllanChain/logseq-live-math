@@ -6,7 +6,13 @@ async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-export async function openPopup(uuid: string) {
+export async function openPopup(
+  uuid: string,
+  opts?: {
+    selectionStart: number
+    selectionEnd: number
+  },
+) {
   logseq.provideUI({
     key: 'popup',
     template: '<span></span>',
@@ -40,8 +46,8 @@ export async function openPopup(uuid: string) {
     return
   }
   const blockContent = textarea.value
-  let dollarEnd = textarea.selectionEnd
-  let dollarStart = textarea.selectionStart
+  let dollarEnd = opts?.selectionEnd ?? textarea.selectionEnd
+  let dollarStart = opts?.selectionStart ?? textarea.selectionStart
   const originalContent = textarea.value.substring(dollarStart, dollarEnd)
   mfe.value = originalContent
   await sleep(0)
@@ -55,7 +61,9 @@ export async function openPopup(uuid: string) {
 
   let done = false
   parent.addEventListener('resize', applyAlign)
-  popupContent.querySelector('.draggable-handle')?.addEventListener('mouseup', applyAlign)
+  popupContent
+    .querySelector('.draggable-handle')
+    ?.addEventListener('mouseup', applyAlign)
   mfe.addEventListener('input', async () => {
     await applyAlign()
     if (mfe.value.includes('placeholder')) return // not a complete formula

@@ -23,7 +23,10 @@ function main() {
       if (!(event.text.startsWith('$') && event.text.endsWith('$'))) return
       const block = await logseq.Editor.getCurrentBlock()
       if (block === null) return
-      openPopup(block.uuid)
+      openPopup(block.uuid, {
+        selectionStart: event.start,
+        selectionEnd: event.end,
+      })
     })
   }
   if (logseq.settings?.dollarTrigger) {
