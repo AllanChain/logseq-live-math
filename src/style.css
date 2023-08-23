@@ -10,6 +10,7 @@ div[data-ref='logseq-live-math'] math-field {
   --contains-highlight-background-color: var(--ls-block-highlight-color);
   --selection-background-color: var(--ls-selection-background-color);
   --primary: var(--ls-primary-theme-color, var(--ls-wb-text-color-blue));
+  --text-font-family: KaTeX_Main, "Times New Roman", serif;
 }
 
 div[data-ref='logseq-live-math'] math-field::part(virtual-keyboard-toggle):hover {
