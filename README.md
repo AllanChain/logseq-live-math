@@ -22,6 +22,6 @@ logseq-live-math integrates [MathLive](https://cortexjs.io/mathlive/) into Logse
   3. Select the formula with the mouse (e.g. `$\frac12$`). Can be disabled
 - 📝 Edit LaTeX formula with MathLive, rich, intuitive, and fast
 - 🔄 Update the LaTeX formula in the block in real-time
-- 🔙 Close the MathLive popup to cancel input and restore
+- 🔙 Press <kbd>Enter</kbd> to confirm, close the popup to cancel and restore
 - 🎨 Well-configured MathLive theme to match Logseq custom theme
 - 🔧 Configurable MathLive [keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings) and [inline shortcuts](https://cortexjs.io/mathlive/guides/shortcuts/#inline-shortcuts)
