@@ -40,13 +40,17 @@ div[data-ref='logseq-live-math']
   --keycap-secondary-text: var(--ls-secondary-text-color);
 }
 
-div#mathlive-suggestion-popover.top-tip {
+div#mathlive-suggestion-popover {
   background-color: var(--ls-primary-background-color);
   z-index: var(--ls-z-index-level-2);
 }
 
 div#mathlive-suggestion-popover.top-tip::after {
   border-bottom-color: var(--ls-primary-background-color);
+}
+
+div#mathlive-suggestion-popover.bottom-tip::after {
+  border-top-color: var(--ls-primary-background-color);
 }
 
 li.ML__popover__current {
