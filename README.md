@@ -17,6 +17,7 @@ logseq-live-math integrates [MathLive](https://cortexjs.io/mathlive/) into Logse
 ## How to use
 
 There are 3 ways to trigger the MathLive input:
+
 1. Using the `/math` command
 2. Type `$$`
 3. Select the formula with mouse (e.g. `$\frac12$`)

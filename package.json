@@ -4,7 +4,8 @@
   "description": "Type LaTeX in live mode!",
   "type": "module",
   "scripts": {
-    "build": "esbuild src/index.ts src/parent.ts --minify --bundle --loader:.css=text --outdir=dist"
+    "build": "esbuild src/index.ts src/parent.ts --minify --bundle --loader:.css=text --outdir=dist",
+    "format": "prettier -w src/ README.md index.html .github/"
   },
   "keywords": [],
   "author": "Allan Chain",
