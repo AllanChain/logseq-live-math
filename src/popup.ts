@@ -24,12 +24,10 @@ export async function openPopup(
   await sleep(0)
   const popupContent = parent.document.getElementById('logseq-live-math--popup')
   if (popupContent === null) return
-  const floatContent = popupContent.querySelector('.ls-ui-float-content')
+  const floatContent = popupContent.querySelector<HTMLDivElement>('.ls-ui-float-content')
   if (floatContent === null) return
   // keep block in editing mode after mousedown
   popupContent.addEventListener('mousedown', (event) => event.stopPropagation())
-  // avoid Logseq catching keydown
-  floatContent.addEventListener('keydown', (event) => event.stopPropagation())
 
   const mfe = parent.document.createElement('math-field') as MathfieldElement
   mfe.style.display = 'block'
@@ -37,7 +35,7 @@ export async function openPopup(
 
   const delimSwitch = parent.document.createElement('button')
   delimSwitch.innerText = 'Live Math'
-  delimSwitch.classList.add("delim-switch")
+  delimSwitch.classList.add('delim-switch')
   const popupTitle = popupContent.querySelector('.th > .l > h3')
   popupTitle?.replaceChildren(delimSwitch)
 
@@ -91,9 +89,7 @@ export async function openPopup(
     if (done) return // don't clean up if inserted
     await logseq.Editor.updateBlock(uuid, contentBefore + originalContent + contentAfter)
   })
-  mfe.addEventListener('change', async () => {
-    // Ignore focus lost
-    if (!mfe.hasFocus()) return
+  const insertLaTeX = async () => {
     if (done) return // avoid insert twice
     done = true
     logseq.provideUI({ key: 'popup', template: '' }) // close popup
@@ -101,7 +97,20 @@ export async function openPopup(
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
     // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
     textarea.focus()
+    textarea.selectionStart = contentBeforeCaret.length
     textarea.selectionEnd = contentBeforeCaret.length
+  }
+  mfe.addEventListener('change', async () => {
+    // Ignore focus lost
+    if (!mfe.hasFocus()) return
+    await insertLaTeX()
+  })
+  popupContent.addEventListener('keydown', async (event) => {
+    if (event.key === 'Enter') {
+      await insertLaTeX()
+    }
+    // avoid Logseq catching keydown, e.g. `(`
+    event.stopPropagation()
   })
 }
 
