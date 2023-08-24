@@ -18,7 +18,7 @@ export async function openPopup(
     template: '<span></span>',
     style: await calcAlign(),
     attrs: {
-      title: 'Live Math',
+      title: 'Click title to switch display and inline style',
     },
   })
   await sleep(0)
@@ -34,6 +34,13 @@ export async function openPopup(
   const mfe = parent.document.createElement('math-field') as MathfieldElement
   mfe.style.display = 'block'
   floatContent.prepend(mfe)
+
+  const delimSwitch = parent.document.createElement('button')
+  delimSwitch.innerText = 'Live Math'
+  delimSwitch.classList.add("delim-switch")
+  const popupTitle = popupContent.querySelector('.th > .l > h3')
+  popupTitle?.replaceChildren(delimSwitch)
+
   await sleep(0)
   mfe.focus()
   configureMF(mfe)
@@ -55,6 +62,7 @@ export async function openPopup(
       delim = match.groups.delim
     }
   }
+  delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
   await sleep(0)
   applyAlign() // Resize box based on originalContent
 
@@ -66,6 +74,12 @@ export async function openPopup(
   let done = false
   parent.addEventListener('resize', applyAlign)
   popupContent.querySelector('.draggable-handle')?.addEventListener('mouseup', applyAlign)
+  delimSwitch.addEventListener('click', async () => {
+    delim = delim === '$' ? '$$' : '$'
+    delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
+    const contentBeforeCaret = contentBefore + `${delim}${mfe.value}${delim}`
+    await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
+  })
   mfe.addEventListener('input', async () => {
     await applyAlign()
     if (mfe.value.includes('placeholder')) return // not a complete formula
