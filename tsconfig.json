@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
-    "target": "ES2017"
+    "target": "ES2020"
   },
   "include": ["src/**/*"]
 }

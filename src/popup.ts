@@ -47,7 +47,14 @@ export async function openPopup(
   let dollarEnd = opts?.selectionEnd ?? textarea.selectionEnd
   let dollarStart = opts?.selectionStart ?? textarea.selectionStart
   const originalContent = textarea.value.substring(dollarStart, dollarEnd)
-  mfe.value = originalContent
+  let delim = logseq.settings?.preferDisplay ? '$$' : '$'
+  if (originalContent) {
+    const match = originalContent.match(/(?<delim>\$+)(?<content>.*)\1/)
+    if (match !== null && match.groups !== undefined) {
+      mfe.value = match.groups.content
+      delim = match.groups.delim
+    }
+  }
   await sleep(0)
   applyAlign() // Resize box based on originalContent
 
@@ -55,7 +62,6 @@ export async function openPopup(
   while (blockContent.charAt(dollarStart - 1) === '$') dollarStart--
   const contentBefore = blockContent.substring(0, dollarStart)
   const contentAfter = blockContent.substring(dollarEnd, blockContent.length)
-  const delim = logseq.settings?.preferDisplay ? '$$' : '$'
 
   let done = false
   parent.addEventListener('resize', applyAlign)
