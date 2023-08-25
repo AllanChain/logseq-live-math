@@ -54,7 +54,7 @@ export async function openPopup(
   const originalContent = textarea.value.substring(dollarStart, dollarEnd)
   let delim = logseq.settings?.preferDisplay ? '$$' : '$'
   if (originalContent) {
-    const match = originalContent.match(/(?<delim>\$+)(?<content>.*)\1/)
+    const match = originalContent.match(/^(?<delim>\$+)(?<content>.*)\1$/)
     if (match !== null && match.groups !== undefined) {
       mfe.value = match.groups.content
       delim = match.groups.delim
