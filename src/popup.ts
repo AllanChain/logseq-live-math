@@ -106,7 +106,7 @@ export async function openPopup(
     await insertLaTeX()
   })
   popupContent.addEventListener('keydown', async (event) => {
-    if (event.key === 'Enter') {
+    if (event.target !== mfe && event.key === 'Enter') {
       await insertLaTeX()
     }
     // avoid Logseq catching keydown, e.g. `(`
