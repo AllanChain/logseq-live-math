@@ -7,6 +7,12 @@
 <p align=center>
   <em>Type LaTeX in live mode!</em>
 </p>
+<p align=center>
+  <a href="https://github.com/AllanChain/logseq-live-math/releases">
+    <img src="https://img.shields.io/github/v/release/AllanChain/logseq-live-math" alt="GitHub release">
+  </a>
+  <img src="https://img.shields.io/github/downloads/AllanChain/logseq-live-math/total" alt="total downloads">
+</p>
 
 logseq-live-math integrates [MathLive](https://cortexjs.io/mathlive/) into Logseq, providing a better experience using Logseq with a lot of math.
 
