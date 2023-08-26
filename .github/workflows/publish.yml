@@ -15,6 +15,9 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
@@ -33,39 +36,20 @@ jobs:
           pnpm build
           mkdir ${{ env.PLUGIN_NAME }}
           cp -r README.md LICENSE dist index.html package.json icon.svg ${{ env.PLUGIN_NAME }}
-          zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
-          ls
-          echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
+          tag_name=$(git tag --sort version:refname | tail -n 1)
+          zip -r ${{ env.PLUGIN_NAME }}-${tag_name}.zip ${{ env.PLUGIN_NAME }}
+          echo "tag_name=$tag_name" >> "$GITHUB_OUTPUT"
 
-      - name: Create Release
-        uses: ncipollo/release-action@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ github.ref }}
+      - name: Generate Changelog
+        uses: orhun/git-cliff-action@v2
+        id: changelog
         with:
-          allowUpdates: true
-          draft: false
-          prerelease: false
+          args: --latest
 
-      - name: Upload zip file
-        id: upload_zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ env.PLUGIN_NAME }}.zip
-          asset_name: ${{ env.PLUGIN_NAME }}-${{ steps.build.outputs.tag_name }}.zip
-          asset_content_type: application/zip
-
-      - name: Upload package.json
-        id: upload_metadata
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./package.json
-          asset_name: package.json
-          asset_content_type: application/json
+          body: ${{ steps.changelog.outputs.content }}
+          files: |
+            ${{ env.PLUGIN_NAME }}-*.zip
+            package.json
