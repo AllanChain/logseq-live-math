@@ -31,3 +31,19 @@ logseq-live-math integrates [MathLive](https://cortexjs.io/mathlive/) into Logse
 - 🔙 Press <kbd>Enter</kbd> to confirm, close the popup to cancel and restore
 - 🎨 Well-configured MathLive theme to match Logseq custom theme
 - 🔧 Configurable MathLive [keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings) and [inline shortcuts](https://cortexjs.io/mathlive/guides/shortcuts/#inline-shortcuts)
+
+## FAQ
+
+### How to disable double-dollar trigger and select-and-edit?
+
+Go to settings page and disable them.
+
+### I've selected the formula but nothing happend!
+
+Logseq has some bugs for the `input-selection-end` event ([logseq/logseq#10106](https://github.com/logseq/logseq/issues/10106)), which means currently, you have to click on the selection again to trigger the popup ([#1 (comment)](https://github.com/AllanChain/logseq-live-math/issues/1#issuecomment-1694545308)).
+
+### How to switch between display math (`$$`) and inline math (`$`)?
+
+If you want to change the default style, go to settings page and switch `preferDisplay`.
+
+If you need to switch temporarily, you can click on the title of the popup to switch between `Inline Math` and `Display Math`.
