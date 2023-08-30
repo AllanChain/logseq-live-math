@@ -75,13 +75,17 @@ export async function openPopup(
   delimSwitch.addEventListener('click', async () => {
     delim = delim === '$' ? '$$' : '$'
     delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
-    const contentBeforeCaret = contentBefore + `${delim}${mfe.value}${delim}`
+    const contentBeforeCaret = mfe.value
+      ? contentBefore + `${delim}${mfe.value}${delim}`
+      : contentBefore
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
   })
   mfe.addEventListener('input', async () => {
     await applyAlign()
     if (mfe.value.includes('placeholder')) return // not a complete formula
-    const contentBeforeCaret = contentBefore + `${delim}${mfe.value}${delim}`
+    const contentBeforeCaret = mfe.value
+      ? contentBefore + `${delim}${mfe.value}${delim}`
+      : contentBefore
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
   })
   mfe.addEventListener('unmount', async () => {
@@ -93,7 +97,9 @@ export async function openPopup(
     if (done) return // avoid insert twice
     done = true
     logseq.provideUI({ key: 'popup', template: '' }) // close popup
-    const contentBeforeCaret = contentBefore + `${delim}${mfe.value}${delim}`
+    const contentBeforeCaret = mfe.value
+      ? contentBefore + `${delim}${mfe.value}${delim}`
+      : contentBefore
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
     // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
     textarea.focus()
