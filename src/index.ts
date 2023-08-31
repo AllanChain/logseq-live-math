@@ -20,7 +20,7 @@ function main() {
   if (logseq.settings?.selectEdit) {
     logseq.Editor.onInputSelectionEnd(async (event) => {
       if (event.text.length <= 2) return
-      if (!event.text.match(/^(\$+)([^$]+)\1$/)) return
+      if (!event.text.match(/^(\$+)([^$]+)\1$/m)) return
       const block = await logseq.Editor.getCurrentBlock()
       if (block === null) return
       openPopup(block.uuid, {

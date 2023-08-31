@@ -53,11 +53,13 @@ export async function openPopup(
   let dollarStart = opts?.selectionStart ?? textarea.selectionStart
   const originalContent = textarea.value.substring(dollarStart, dollarEnd)
   let delim = logseq.settings?.preferDisplay ? '$$' : '$'
+  let newline = ''
   if (originalContent) {
-    const match = originalContent.match(/^(?<delim>\$+)(?<content>.*)\1$/)
+    const match = originalContent.match(/^(?<delim>\$+)(?<newline>\n*)(?<content>.*)\2\1$/ms)
     if (match !== null && match.groups !== undefined) {
       mfe.value = match.groups.content
       delim = match.groups.delim
+      newline = match.groups.newline
     }
   }
   delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
@@ -70,23 +72,23 @@ export async function openPopup(
   const contentAfter = blockContent.substring(dollarEnd, blockContent.length)
 
   let done = false
+  const updateLaTeX = async () => {
+    const insertedText = delim + newline + mfe.value + newline + delim
+    const contentBeforeCaret = mfe.value ? contentBefore + insertedText : contentBefore
+    await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
+    return contentBeforeCaret
+  }
   parent.addEventListener('resize', applyAlign)
   popupContent.querySelector('.draggable-handle')?.addEventListener('mouseup', applyAlign)
   delimSwitch.addEventListener('click', async () => {
     delim = delim === '$' ? '$$' : '$'
     delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
-    const contentBeforeCaret = mfe.value
-      ? contentBefore + `${delim}${mfe.value}${delim}`
-      : contentBefore
-    await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
+    await updateLaTeX()
   })
   mfe.addEventListener('input', async () => {
     await applyAlign()
     if (mfe.value.includes('placeholder')) return // not a complete formula
-    const contentBeforeCaret = mfe.value
-      ? contentBefore + `${delim}${mfe.value}${delim}`
-      : contentBefore
-    await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
+    await updateLaTeX()
   })
   mfe.addEventListener('unmount', async () => {
     parent.removeEventListener('resize', applyAlign)
@@ -97,10 +99,7 @@ export async function openPopup(
     if (done) return // avoid insert twice
     done = true
     logseq.provideUI({ key: 'popup', template: '' }) // close popup
-    const contentBeforeCaret = mfe.value
-      ? contentBefore + `${delim}${mfe.value}${delim}`
-      : contentBefore
-    await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
+    const contentBeforeCaret = await updateLaTeX()
     // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
     textarea.focus()
     textarea.selectionStart = contentBeforeCaret.length
