@@ -17,6 +17,13 @@ export const settingsConfig: SettingSchemaDesc[] = [
     default: false,
   },
   {
+    title: 'Prefer multiline for display math',
+    description: 'Use `$$\\n...\\n$$` instead of `$$...$$`',
+    key: 'preferMultiline',
+    type: 'boolean',
+    default: false,
+  },
+  {
     title: 'Enable select-and-edit',
     description: 'For example, when you select `$\\frac12$`, MathLive will pop up',
     key: 'selectEdit',

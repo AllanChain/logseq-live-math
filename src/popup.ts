@@ -53,13 +53,14 @@ export async function openPopup(
   let dollarStart = opts?.selectionStart ?? textarea.selectionStart
   const originalContent = textarea.value.substring(dollarStart, dollarEnd)
   let delim = logseq.settings?.preferDisplay ? '$$' : '$'
-  let newline = ''
+  let newline = logseq.settings?.preferMultiline ? '\n' : ''
   if (originalContent) {
     const match = originalContent.match(/^(?<delim>\$+)(?<newline>\n*)(?<content>.*)\2\1$/ms)
     if (match !== null && match.groups !== undefined) {
       mfe.value = match.groups.content
       delim = match.groups.delim
-      newline = match.groups.newline
+      // Only `$$` has multiline preference
+      if (delim !== '$') newline = match.groups.newline
     }
   }
   delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
