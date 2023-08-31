@@ -35,10 +35,16 @@ export async function openPopup(
     }
   }
 
+  // Make sure the previous one is closed,
+  // so that Logseq will honor the style provided.
+  logseq.provideUI({ key: 'popup', template: '' })
   logseq.provideUI({
     key: 'popup',
     template: '<span></span>',
-    style: await calcAlign(delim === '$$' && !!newline),
+    style: await calcAlign({
+      multiline: delim === '$$' && !!newline,
+      renew: true,
+    }),
     attrs: {
       title: 'Click title to switch display and inline style',
     },
@@ -69,8 +75,7 @@ export async function openPopup(
   await sleep(0)
 
   async function applyAlign() {
-    console.log('newlien', newline)
-    const styles = await calcAlign(delim === '$$' && !!newline)
+    const styles = await calcAlign({ multiline: delim === '$$' && !!newline })
     if (styles === undefined) return
     if (popupContent === null) return
 
@@ -162,16 +167,19 @@ function parseStyle(s: string): number {
   return parseInt(s.substring(0, s.length - 2), 10)
 }
 
-async function calcAlign(multiline = false): Promise<UIBaseOptions['style']> {
+async function calcAlign(opt?: {
+  multiline?: boolean
+  renew?: boolean
+}): Promise<UIBaseOptions['style']> {
   const popupMinHeight = 100
-  const popupTopMargin = multiline ? 60 : 30
+  const popupTopMargin = opt?.multiline ?? false ? 60 : 30
   const popupBottomMargin = 20
   const popupDefaultWidth = 300
   const clientWidth = parent.document.documentElement.clientWidth
   const clientHeight = parent.document.documentElement.clientHeight
   const popupContent = parent.document.getElementById('logseq-live-math--popup')
   let popup: PopupAlign
-  if (popupContent === null) {
+  if (popupContent === null || opt?.renew) {
     const caret = await logseq.Editor.getEditingCursorPosition()
     if (caret === null) {
       console.error('Error getting cursor pos')
