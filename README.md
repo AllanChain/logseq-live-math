@@ -34,16 +34,20 @@ logseq-live-math integrates [MathLive](https://cortexjs.io/mathlive/) into Logse
 
 ## FAQ
 
-### How to disable double-dollar trigger and select-and-edit?
+### How is this plugin different from the `darwis-mathlive-plugin`?
 
-Go to settings page and disable them.
+[darwis-mathlive-plugin](https://github.com/hkgnp/darwis-mathlive-plugin) also integrated MathLive to Logseq, but it’s working in a different way which is not very convenient for me, as it’s not automatically converted to LaTeX and only supports display math.
 
-### I've selected the formula but nothing happend!
+### How to disable the double-dollar trigger and select-and-edit?
+
+Go to the settings page and disable them.
+
+### I've selected the formula but nothing happens!
 
 Logseq has some bugs for the `input-selection-end` event ([logseq/logseq#10106](https://github.com/logseq/logseq/issues/10106)), which means currently, you have to click on the selection again to trigger the popup ([#1 (comment)](https://github.com/AllanChain/logseq-live-math/issues/1#issuecomment-1694545308)).
 
 ### How to switch between display math (`$$`) and inline math (`$`)?
 
-If you want to change the default style, go to settings page and switch `preferDisplay`.
+If you want to change the default style, go to the settings page and switch `preferDisplay`.
 
 If you need to switch temporarily, you can click on the title of the popup to switch between `Inline Math` and `Display Math`.
