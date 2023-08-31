@@ -13,36 +13,6 @@ export async function openPopup(
     selectionEnd: number
   },
 ) {
-  logseq.provideUI({
-    key: 'popup',
-    template: '<span></span>',
-    style: await calcAlign(),
-    attrs: {
-      title: 'Click title to switch display and inline style',
-    },
-  })
-  await sleep(0)
-  const popupContent = parent.document.getElementById('logseq-live-math--popup')
-  if (popupContent === null) return
-  const floatContent = popupContent.querySelector<HTMLDivElement>('.ls-ui-float-content')
-  if (floatContent === null) return
-  // keep block in editing mode after mousedown
-  popupContent.addEventListener('mousedown', (event) => event.stopPropagation())
-
-  const mfe = parent.document.createElement('math-field') as MathfieldElement
-  mfe.style.display = 'block'
-  floatContent.prepend(mfe)
-
-  const delimSwitch = parent.document.createElement('button')
-  delimSwitch.innerText = 'Live Math'
-  delimSwitch.classList.add('delim-switch')
-  const popupTitle = popupContent.querySelector('.th > .l > h3')
-  popupTitle?.replaceChildren(delimSwitch)
-
-  await sleep(0)
-  mfe.focus()
-  configureMF(mfe)
-
   const textarea = parent.document.querySelector<HTMLTextAreaElement>(`textarea[id$="${uuid}"]`)
   if (textarea == null) {
     logseq.UI.showMsg('Block changed!')
@@ -52,25 +22,77 @@ export async function openPopup(
   let dollarEnd = opts?.selectionEnd ?? textarea.selectionEnd
   let dollarStart = opts?.selectionStart ?? textarea.selectionStart
   const originalContent = textarea.value.substring(dollarStart, dollarEnd)
+  let originalValue = ''
   let delim = logseq.settings?.preferDisplay ? '$$' : '$'
   let newline = logseq.settings?.preferMultiline ? '\n' : ''
   if (originalContent) {
     const match = originalContent.match(/^(?<delim>\$+)(?<newline>\n*)(?<content>.*)\2\1$/ms)
     if (match !== null && match.groups !== undefined) {
-      mfe.value = match.groups.content
+      originalValue = match.groups.content
       delim = match.groups.delim
       // Only `$$` has multiline preference
       if (delim !== '$') newline = match.groups.newline
     }
   }
-  delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
+
+  logseq.provideUI({
+    key: 'popup',
+    template: '<span></span>',
+    style: await calcAlign(delim === '$$' && !!newline),
+    attrs: {
+      title: 'Click title to switch display and inline style',
+    },
+  })
   await sleep(0)
+  const popupContent = parent.document.getElementById('logseq-live-math--popup')
+  if (popupContent === null) return
+  const floatContent = popupContent.querySelector<HTMLDivElement>('.ls-ui-float-content')
+  if (floatContent === null) return
+
+  const mfe = parent.document.createElement('math-field') as MathfieldElement
+  mfe.style.display = 'block'
+  floatContent.prepend(mfe)
+  // Adding value before mfe was added to the DOM
+  // will make `focus()` selecting the whole formula
+  mfe.value = originalValue
+
+  const delimSwitch = parent.document.createElement('button')
+  delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
+  delimSwitch.classList.add('delim-switch')
+  const popupTitle = popupContent.querySelector('.th > .l > h3')
+  popupTitle?.replaceChildren(delimSwitch)
+
+  await sleep(0)
+  mfe.focus()
+  configureMF(mfe)
+
+  await sleep(0)
+
+  async function applyAlign() {
+    console.log('newlien', newline)
+    const styles = await calcAlign(delim === '$$' && !!newline)
+    if (styles === undefined) return
+    if (popupContent === null) return
+
+    Object.entries(styles).forEach(([k, v]) => {
+      popupContent.style.setProperty(k, v)
+    })
+    popupContent.dataset.dx = '0'
+    popupContent.dataset.dy = '0'
+    popupContent.style.transform = 'unset'
+  }
+
   applyAlign() // Resize box based on originalContent
 
   while (blockContent.charAt(dollarEnd) === '$') dollarEnd++
   while (blockContent.charAt(dollarStart - 1) === '$') dollarStart--
   const contentBefore = blockContent.substring(0, dollarStart)
   const contentAfter = blockContent.substring(dollarEnd, blockContent.length)
+
+  parent.addEventListener('resize', applyAlign)
+  // keep block in editing mode after mousedown
+  popupContent.addEventListener('mousedown', (event) => event.stopPropagation())
+  popupContent.querySelector('.draggable-handle')?.addEventListener('mouseup', applyAlign)
 
   let done = false
   const updateLaTeX = async () => {
@@ -80,9 +102,6 @@ export async function openPopup(
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
     return contentBeforeCaret
   }
-  parent.addEventListener('resize', applyAlign)
-  popupContent.querySelector('.draggable-handle')?.addEventListener('mouseup', applyAlign)
-
   let mouseMovement = ''
   // Avoid firing click after dragging
   delimSwitch.addEventListener('mousedown', (event) => {
@@ -143,9 +162,10 @@ function parseStyle(s: string): number {
   return parseInt(s.substring(0, s.length - 2), 10)
 }
 
-async function calcAlign(): Promise<UIBaseOptions['style']> {
+async function calcAlign(multiline = false): Promise<UIBaseOptions['style']> {
   const popupMinHeight = 100
-  const popupTopMargin = 20
+  const popupTopMargin = multiline ? 60 : 30
+  const popupBottomMargin = 20
   const popupDefaultWidth = 300
   const clientWidth = parent.document.documentElement.clientWidth
   const clientHeight = parent.document.documentElement.clientHeight
@@ -198,10 +218,14 @@ async function calcAlign(): Promise<UIBaseOptions['style']> {
     }
   }
   if (popup.top < 0) popup.top = popupTopMargin
-  if (popup.bottom < 0) popup.bottom = popupTopMargin
+  if (popup.bottom < 0) popup.bottom = popupBottomMargin
   if (popup.top !== 0 && popup.top + popupMinHeight > clientHeight) {
-    popup.bottom = clientHeight - popup.top + 2 * popupTopMargin
+    popup.bottom = clientHeight - popup.top + popupTopMargin + popupBottomMargin
     popup.top = 0
+  }
+  if (popup.bottom !== 0 && popup.bottom + popupMinHeight > clientHeight) {
+    popup.top = popupTopMargin
+    popup.bottom = 0
   }
   return {
     left: popup.left + 'px',
@@ -211,18 +235,4 @@ async function calcAlign(): Promise<UIBaseOptions['style']> {
     marginLeft: popup.marginLeft + 'px',
     marginRight: popup.marginRight + 'px',
   }
-}
-
-async function applyAlign() {
-  const styles = await calcAlign()
-  if (styles === undefined) return
-  const popupContent = parent.document.getElementById('logseq-live-math--popup')
-  if (popupContent === null) return
-
-  Object.entries(styles).forEach(([k, v]) => {
-    popupContent.style.setProperty(k, v)
-  })
-  popupContent.dataset.dx = '0'
-  popupContent.dataset.dy = '0'
-  popupContent.style.transform = 'unset'
 }
