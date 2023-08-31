@@ -80,7 +80,16 @@ export async function openPopup(
   }
   parent.addEventListener('resize', applyAlign)
   popupContent.querySelector('.draggable-handle')?.addEventListener('mouseup', applyAlign)
-  delimSwitch.addEventListener('click', async () => {
+
+  let mouseMovement = ''
+  // Avoid firing click after dragging
+  delimSwitch.addEventListener('mousedown', (event) => {
+    mouseMovement = `${event.x},${event.y}`
+  })
+  delimSwitch.addEventListener('mouseup', async (event) => {
+    if (mouseMovement !== `${event.x},${event.y}`) return
+    mouseMovement = ''
+    console.log(event)
     delim = delim === '$' ? '$$' : '$'
     delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
     await updateLaTeX()
