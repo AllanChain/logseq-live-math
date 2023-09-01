@@ -19,6 +19,8 @@ logseq-live-math integrates [MathLive](https://cortexjs.io/mathlive/) into Logse
 ![live-math-demo](.github/live-math-demo.gif)
 
 > The above example uses [logseq-display-math](https://github.com/AllanChain/logseq-display-math) to render inline math in display style.
+>
+> Check it out for math render style, KaTeX macros, and more!
 
 ## Features
 
