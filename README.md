@@ -49,7 +49,7 @@ For example, if you configured the key to be <kbd>Shift</kbd>, then you need to 
 
 ### I've selected the formula but nothing happens!
 
-Logseq has some bugs for the `input-selection-end` event ([logseq/logseq#10106](https://github.com/logseq/logseq/issues/10106)), which means currently, you have to click on the selection again to trigger the popup ([#1 (comment)](https://github.com/AllanChain/logseq-live-math/issues/1#issuecomment-1694545308)).
+Logseq has some bugs for the `input-selection-end` event ([logseq/logseq#10106](https://github.com/logseq/logseq/issues/10106)). Please try Logseq version `v0.9.17` or higher.
 
 ### How to switch between display math (`$$`) and inline math (`$`)?
 
