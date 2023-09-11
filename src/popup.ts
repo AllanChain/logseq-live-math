@@ -100,11 +100,11 @@ export async function openPopup(
   popupContent.querySelector('.draggable-handle')?.addEventListener('mouseup', applyAlign)
 
   let done = false
+  const wrapLaTeX = (latex: string) =>
+    delim === '$' ? delim + latex + delim : delim + newline + latex + newline + delim
+
   const updateLaTeX = async () => {
-    const insertedText =
-      delim === '$'
-        ? delim + mfe.getValue('latex-expanded') + delim
-        : delim + newline + mfe.getValue('latex-expanded') + newline + delim
+    const insertedText = wrapLaTeX(mfe.getValue('latex-expanded'))
     const contentBeforeCaret = mfe.value ? contentBefore + insertedText : contentBefore
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
     return contentBeforeCaret
@@ -122,6 +122,7 @@ export async function openPopup(
     delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
     await updateLaTeX()
   })
+  mfe.onExport = (mfe, latex, range) => wrapLaTeX(mfe.getValue(range, 'latex-expanded'))
   mfe.addEventListener('input', async () => {
     await applyAlign()
     if (mfe.value.includes('placeholder')) return // not a complete formula
