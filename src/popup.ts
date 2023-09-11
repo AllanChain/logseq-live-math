@@ -102,7 +102,9 @@ export async function openPopup(
   let done = false
   const updateLaTeX = async () => {
     const insertedText =
-      delim === '$' ? delim + mfe.value + delim : delim + newline + mfe.value + newline + delim
+      delim === '$'
+        ? delim + mfe.getValue('latex-expanded') + delim
+        : delim + newline + mfe.getValue('latex-expanded') + newline + delim
     const contentBeforeCaret = mfe.value ? contentBefore + insertedText : contentBefore
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
     return contentBeforeCaret
