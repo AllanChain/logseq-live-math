@@ -31,6 +31,23 @@ export const settingsConfig: SettingSchemaDesc[] = [
     default: true,
   },
   {
+    title: 'Modifier key for select-and-edit',
+    description: 'Require modifier key to be pressed for MathLive to pop up',
+    key: 'selectModifier',
+    type: 'enum',
+    default: '<none>',
+    enumPicker: 'select',
+    enumChoices: [
+      '<none>',
+      'Control',
+      'Shift',
+      'Alt',
+      'Control+Shift',
+      'Control+Alt',
+      'Shift+Alt',
+    ]
+  },
+  {
     title: 'Key bindings',
     description:
       'Configure [MathLive keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings)',

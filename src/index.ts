@@ -19,6 +19,17 @@ function main() {
   })
   if (logseq.settings?.selectEdit) {
     logseq.Editor.onInputSelectionEnd(async (event) => {
+      if (logseq.settings?.selectModifier !== '<none>') {
+        const pressedKeys = parent.document.body.dataset.activeKeystroke?.split('+')
+        const requiredKeys = logseq.settings?.selectModifier.split('+')
+        if (pressedKeys === undefined || requiredKeys === undefined) return
+        if (
+          pressedKeys.length !== requiredKeys.length ||
+          pressedKeys.some((k) => !requiredKeys.includes(k))
+        ) {
+          return
+        }
+      }
       if (event.text.length <= 2) return
       if (!event.text.match(/^(\$+)([^$]+)\1$/m)) return
       const block = await logseq.Editor.getCurrentBlock()
