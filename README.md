@@ -34,6 +34,12 @@ logseq-live-math integrates [MathLive](https://cortexjs.io/mathlive/) into Logse
 - 🎨 Well-configured MathLive theme to match Logseq custom theme
 - 🔧 Configurable MathLive [keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings) and [inline shortcuts](https://cortexjs.io/mathlive/guides/shortcuts/#inline-shortcuts)
 
+## Install
+
+This plugin is available on the plugin marketplace. The simplest way to install it is from the marketplace.
+
+You can also download the `zip` file under the [release](https://github.com/AllanChain/logseq-live-math/releases/latest) page, unzip it somewhere and Click `Load unpacked plugin`, and select the folder where the plugin code was unzipped. You may need to go to "Settings -> Advanced" to enable "Developer mode".
+
 ## FAQ
 
 ### How is this plugin different from the `darwis-mathlive-plugin`?
