@@ -23,10 +23,7 @@ function main() {
         const pressedKeys = parent.document.body.dataset.activeKeystroke?.split('+')
         const requiredKeys = logseq.settings?.selectModifier.split('+')
         if (pressedKeys === undefined || requiredKeys === undefined) return
-        if (
-          pressedKeys.length !== requiredKeys.length ||
-          pressedKeys.some((k) => !requiredKeys.includes(k))
-        ) {
+        if (requiredKeys.some((k: string) => !pressedKeys.includes(k))) {
           return
         }
       }
