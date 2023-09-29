@@ -144,8 +144,8 @@ export async function openPopup(
     textarea.selectionEnd = contentBeforeCaret.length
   }
   mfe.addEventListener('change', async () => {
-    // Ignore focus lost
-    if (!mfe.hasFocus()) return
+    // Ignore window focus lost
+    if (!mfe.hasFocus() && !parent.document.hasFocus()) return
     await insertLaTeX()
   })
   popupContent.addEventListener('keydown', async (event) => {
