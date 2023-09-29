@@ -37,30 +37,33 @@ export const settingsConfig: SettingSchemaDesc[] = [
     type: 'enum',
     default: '<none>',
     enumPicker: 'select',
-    enumChoices: [
-      '<none>',
-      'Control',
-      'Shift',
-      'Alt',
-      'Control+Shift',
-      'Control+Alt',
-      'Shift+Alt',
-    ]
+    enumChoices: ['<none>', 'Control', 'Shift', 'Alt', 'Control+Shift', 'Control+Alt', 'Shift+Alt'],
   },
   {
     title: 'Key bindings',
     description:
-      'Configure [MathLive keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings)',
+      'Configure [MathLive keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings).' +
+      '\n\nBy default, this plugin includes `ctrl+b` to insert `\\mathbf` as an example. ' +
+      "You can add your own and delete this example if you don't want it.",
     key: 'keybindings',
     type: 'object',
-    default: [],
+    default: [
+      {
+        key: 'ctrl+b',
+        command: ['insert', '\\mathbf{#@}'],
+      },
+    ],
   },
   {
     title: 'Inline shortcuts',
     description:
-      'Configure [MathLive inline shortcuts](https://cortexjs.io/mathlive/guides/shortcuts/#inline-shortcuts)',
+      'Configure [MathLive inline shortcuts](https://cortexjs.io/mathlive/guides/shortcuts/#inline-shortcuts).' +
+      '\n\nBy default, this plugin inserts `\\mathrm{Logseq}` when you type `Logseq` as an example. ' +
+      "You can add your own and delete this example if you don't want it.",
     key: 'inlineShortcuts',
     type: 'object',
-    default: {},
+    default: {
+      Logseq: '\\mathrm{Logseq}',
+    },
   },
 ]
