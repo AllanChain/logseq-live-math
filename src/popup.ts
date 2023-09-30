@@ -65,6 +65,8 @@ export async function openPopup(
   const floatContent = popupContent.querySelector<HTMLDivElement>('.ls-ui-float-content')
   if (floatContent === null) return
 
+  floatContent.title = '' // Only show the tooltip on hovering title bar, not content
+
   const mfe = parent.document.createElement('math-field') as MathfieldElement
   mfe.style.display = 'block'
   floatContent.prepend(mfe)
