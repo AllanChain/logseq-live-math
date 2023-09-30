@@ -1,26 +1,28 @@
-div[data-ref='logseq-live-math'] > .ls-ui-float-content {
-  background-color: var(--ls-secondary-background-color);
-}
+div[data-ref='logseq-live-math'] {
+  & .ls-ui-float-content {
+    background-color: var(--ls-secondary-background-color);
+  }
 
-div[data-ref='logseq-live-math'] math-field {
-  outline: none;
-  border-radius: 0;
-  color: var(--ls-primary-text-color);
-  background-color: var(--ls-secondary-background-color);
-  --contains-highlight-background-color: var(--ls-block-highlight-color);
-  --selection-background-color: var(--ls-selection-background-color);
-  --primary: var(--ls-primary-theme-color, var(--ls-wb-text-color-blue));
-  --text-font-family: KaTeX_Main, 'Times New Roman', serif;
-}
+  & math-field {
+    outline: none;
+    border-radius: 0;
+    color: var(--ls-primary-text-color);
+    background-color: var(--ls-secondary-background-color);
+    --contains-highlight-background-color: var(--ls-block-highlight-color);
+    --selection-background-color: var(--ls-selection-background-color);
+    --primary: var(--ls-primary-theme-color, var(--ls-wb-text-color-blue));
+    --text-font-family: KaTeX_Main, 'Times New Roman', serif;
 
-div[data-ref='logseq-live-math'] math-field::part(virtual-keyboard-toggle):hover {
-  background-color: var(--ls-primary-background-color);
-  color: var(--ls-primary-text-color);
-}
+    &::part(virtual-keyboard-toggle):hover {
+      background-color: var(--ls-primary-background-color);
+      color: var(--ls-primary-text-color);
+    }
 
-div[data-ref='logseq-live-math'] math-field::part(virtual-keyboard-toggle):hover::after {
-  /* Hide 'Toggle Virtual Keyboard' tooltip which spoils popup layout */
-  display: none;
+    &::part(virtual-keyboard-toggle):hover::after {
+      /* Hide 'Toggle Virtual Keyboard' tooltip which spoils popup layout */
+      display: none;
+    }
+  }
 }
 
 .ML__keyboard {
