@@ -35,6 +35,16 @@ export async function openPopup(
     }
   }
 
+  // Insert a background screen to capture clicks
+  const BG_SCREEN_ID = 'logseq-live-math--popup-screen'
+  let oldBgScreen = parent.document.getElementById(BG_SCREEN_ID)
+  if (oldBgScreen !== null) {
+    parent.document.body.removeChild(oldBgScreen)
+  }
+  const bgScreen = parent.document.createElement('div')
+  bgScreen.id = BG_SCREEN_ID
+  parent.document.body.appendChild(bgScreen)
+
   // Make sure the previous one is closed,
   // so that Logseq will honor the style provided.
   logseq.provideUI({ key: 'popup', template: '' })
@@ -130,6 +140,7 @@ export async function openPopup(
   })
   mfe.addEventListener('unmount', async () => {
     parent.removeEventListener('resize', applyAlign)
+    parent.document.body.removeChild(bgScreen)
     if (done) return // don't clean up if inserted
     await logseq.Editor.updateBlock(uuid, contentBefore + originalContent + contentAfter)
   })
@@ -148,6 +159,7 @@ export async function openPopup(
     if (!mfe.hasFocus()) return
     await insertLaTeX()
   })
+  bgScreen.addEventListener('click', insertLaTeX)
   popupContent.addEventListener('keydown', async (event) => {
     if (event.target !== mfe && event.key === 'Enter') {
       await insertLaTeX()
