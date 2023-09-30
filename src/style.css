@@ -11,6 +11,31 @@ div[data-ref='logseq-live-math'] {
     background-color: var(--ls-secondary-background-color);
   }
 
+  & .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 5px 0;
+
+    & button {
+      font-weight: bold;
+      font-size: small;
+
+      &.clear-button {
+        color: var(--ls-error-color);
+      }
+      &.reset-button {
+        color: var(--ls-warning-color);
+      }
+      &.confirm-button {
+        color: var(--ls-success-color);
+      }
+      &:disabled {
+        color: var(--ls-secondary-text-color);
+      }
+    }
+  }
+
   & math-field {
     outline: none;
     border-radius: 0;

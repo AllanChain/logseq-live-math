@@ -78,6 +78,26 @@ export async function openPopup(
   const popupTitle = popupContent.querySelector('.th > .l > h3')
   popupTitle?.replaceChildren(delimSwitch)
 
+  const actionsDiv = parent.document.createElement('div')
+  actionsDiv.classList.add('actions')
+  const clearButton = parent.document.createElement('button')
+  clearButton.innerHTML = '&#xef88; Clear'
+  clearButton.title = 'Empty this math'
+  clearButton.classList.add('clear-button')
+  actionsDiv.appendChild(clearButton)
+  const resetButton = parent.document.createElement('button')
+  resetButton.innerHTML = '&#xea0c; Reset'
+  resetButton.title = 'Reset as before your edit'
+  resetButton.classList.add('reset-button')
+  if (originalContent.length === 0) resetButton.disabled = true
+  actionsDiv.appendChild(resetButton)
+  const confirmButton = parent.document.createElement('button')
+  confirmButton.innerHTML = '&#xea5e; Done'
+  confirmButton.title = 'Finish editing'
+  confirmButton.classList.add('confirm-button')
+  actionsDiv.appendChild(confirmButton)
+  floatContent.appendChild(actionsDiv)
+
   await sleep(0)
   mfe.focus()
   configureMF(mfe)
@@ -132,6 +152,14 @@ export async function openPopup(
     delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
     await updateLaTeX()
   })
+  clearButton.addEventListener('click', async () => {
+    mfe.value = ''
+    await updateLaTeX()
+  })
+  resetButton.addEventListener('click', async () => {
+    mfe.value = originalContent
+    await updateLaTeX()
+  })
   mfe.onExport = (mfe, latex, range) => wrapLaTeX(mfe.getValue(range, 'latex-expanded'))
   mfe.addEventListener('input', async () => {
     await applyAlign()
@@ -141,8 +169,6 @@ export async function openPopup(
   mfe.addEventListener('unmount', async () => {
     parent.removeEventListener('resize', applyAlign)
     parent.document.body.removeChild(bgScreen)
-    if (done) return // don't clean up if inserted
-    await logseq.Editor.updateBlock(uuid, contentBefore + originalContent + contentAfter)
   })
   const insertLaTeX = async () => {
     if (done) return // avoid insert twice
@@ -154,6 +180,7 @@ export async function openPopup(
     textarea.selectionStart = contentBeforeCaret.length
     textarea.selectionEnd = contentBeforeCaret.length
   }
+  confirmButton.addEventListener('click', insertLaTeX)
   mfe.addEventListener('change', async () => {
     // Ignore focus lost
     if (!mfe.hasFocus()) return
