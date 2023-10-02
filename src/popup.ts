@@ -26,7 +26,7 @@ export async function openPopup(
   let delim = logseq.settings?.preferDisplay ? '$$' : '$'
   let newline = logseq.settings?.preferMultiline ? '\n' : ''
   if (originalContent) {
-    const match = originalContent.match(/^(?<delim>\$+)(?<newline>\n*)(?<content>.*)\2\1$/ms)
+    const match = originalContent.match(/^(?<delim>\$+)(?<newline>\n*)(?<content>.*)\2\1$/s)
     if (match !== null && match.groups !== undefined) {
       originalValue = match.groups.content
       delim = match.groups.delim
