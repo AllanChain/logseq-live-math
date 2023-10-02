@@ -1,6 +1,9 @@
 import type { MathfieldElement } from 'mathlive'
 
 export function configureMF(mfe: MathfieldElement) {
+  mfe.smartFence = logseq.settings?.smartFence ?? true
+  mfe.smartMode = logseq.settings?.smartMode ?? false
+  mfe.smartSuperscript = logseq.settings?.smartSuperscript ?? false
   try {
     mfe.keybindings = [
       ...mfe.keybindings,

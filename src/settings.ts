@@ -1,6 +1,7 @@
 import { SettingSchemaDesc } from '@logseq/libs/dist/LSPlugin.user'
 
 export const settingsConfig: SettingSchemaDesc[] = [
+  { title: 'Triggers', description: '', key: 'triggerSettings', type: 'heading', default: null },
   {
     title: 'Enable `$$` trigger',
     description:
@@ -8,20 +9,6 @@ export const settingsConfig: SettingSchemaDesc[] = [
     key: 'dollarTrigger',
     type: 'boolean',
     default: true,
-  },
-  {
-    title: 'Prefer display mode',
-    description: 'When enabled, math will be inserted as display mode, i.e. `$$`',
-    key: 'preferDisplay',
-    type: 'boolean',
-    default: false,
-  },
-  {
-    title: 'Prefer multiline for display math',
-    description: 'Use `$$\\n...\\n$$` instead of `$$...$$`',
-    key: 'preferMultiline',
-    type: 'boolean',
-    default: false,
   },
   {
     title: 'Enable select-and-edit',
@@ -38,6 +25,43 @@ export const settingsConfig: SettingSchemaDesc[] = [
     default: '<none>',
     enumPicker: 'select',
     enumChoices: ['<none>', 'Control', 'Shift', 'Alt', 'Control+Shift', 'Control+Alt', 'Shift+Alt'],
+  },
+  { title: 'Formatting', description: '', key: 'formatSettings', type: 'heading', default: null },
+  {
+    title: 'Prefer display mode',
+    description: 'When enabled, math will be inserted as display mode, i.e. `$$`',
+    key: 'preferDisplay',
+    type: 'boolean',
+    default: false,
+  },
+  {
+    title: 'Prefer multiline for display math',
+    description: 'Use `$$\\n...\\n$$` instead of `$$...$$`',
+    key: 'preferMultiline',
+    type: 'boolean',
+    default: false,
+  },
+  { title: 'MathLive Settings', description: '', key: 'mathliveSettings', type: 'heading', default: null },
+  {
+    title: 'Smart Fence',
+    description: 'Automatically convert parentheses to `\\left...\\right` markup.',
+    key: 'smartFence',
+    type: 'boolean',
+    default: true,
+  },
+  {
+    title: 'Smart Mode',
+    description: 'Switch to text mode when text input is detected, for example when typing `if x > 0`.',
+    key: 'smartMode',
+    type: 'boolean',
+    default: false,
+  },
+  {
+    title: 'Smart Superscript',
+    description: 'Automatically move out of a superscript when a digit is typed.',
+    key: 'smartSuperscript',
+    type: 'boolean',
+    default: false,
   },
   {
     title: 'Key bindings',
