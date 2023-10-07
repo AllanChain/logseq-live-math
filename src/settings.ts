@@ -53,6 +53,13 @@ export const settingsConfig: SettingSchemaDesc[] = [
   },
   { title: 'MathLive', description: '', key: 'mathliveSettings', type: 'heading', default: null },
   {
+    title: 'Inline preview',
+    description: 'Use inline mode of MathLive if current math is inline mode.',
+    key: 'inlinePreview',
+    type: 'boolean',
+    default: false,
+  },
+  {
     title: 'Smart Fence',
     description: 'Automatically convert parentheses to `\\left...\\right` markup.',
     key: 'smartFence',
@@ -60,7 +67,7 @@ export const settingsConfig: SettingSchemaDesc[] = [
     default: true,
   },
   {
-    title: 'Smart Mode',
+    title: 'Smart mode',
     description:
       'Switch to text mode when text input is detected, for example when typing `if x > 0`.',
     key: 'smartMode',
@@ -68,7 +75,7 @@ export const settingsConfig: SettingSchemaDesc[] = [
     default: false,
   },
   {
-    title: 'Smart Superscript',
+    title: 'Smart superscript',
     description: 'Automatically move out of a superscript when a digit is typed.',
     key: 'smartSuperscript',
     type: 'boolean',

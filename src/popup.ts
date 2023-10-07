@@ -82,6 +82,9 @@ export async function openPopup(
   // Adding value before mfe was added to the DOM
   // will make `focus()` selecting the whole formula
   mfe.value = originalValue
+  if (logseq.settings?.inlinePreview && delim === '$') {
+    mfe.defaultMode = 'inline-math'
+  }
 
   const delimSwitch = parent.document.createElement('button')
   delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
@@ -147,6 +150,10 @@ export async function openPopup(
   const switchMode = async () => {
     delim = delim === '$' ? '$$' : '$'
     delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
+    if (logseq.settings?.inlinePreview) {
+      mfe.defaultMode = delim === '$' ? 'inline-math' : 'math'
+      mfe.value = mfe.value // update
+    }
     await updateLaTeX()
   }
   let mouseMovement = ''
