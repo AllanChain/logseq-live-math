@@ -25,6 +25,12 @@ export async function openPopup(
   let originalValue = ''
   let delim = logseq.settings?.preferDisplay ? '$$' : '$'
   let newline = logseq.settings?.preferMultiline ? '\n' : ''
+
+  while (blockContent.charAt(dollarEnd) === '$') dollarEnd++
+  while (blockContent.charAt(dollarStart - 1) === '$') dollarStart--
+  const contentBefore = blockContent.substring(0, dollarStart)
+  const contentAfter = blockContent.substring(dollarEnd, blockContent.length)
+
   if (originalContent) {
     const match = originalContent.match(/^(?<delim>\$+)(?<newline>\n*)(?<content>.*)\2\1$/s)
     if (match !== null && match.groups !== undefined) {
@@ -33,6 +39,9 @@ export async function openPopup(
       // Only `$$` has multiline preference
       if (delim !== '$') newline = match.groups.newline
     }
+  } else if (logseq.settings?.smartFormat && contentBefore.length > 0) {
+    if (contentBefore[contentBefore.length - 1] === '\n') delim = '$$'
+    else delim = '$'
   }
 
   // Insert a background screen to capture clicks
@@ -120,11 +129,6 @@ export async function openPopup(
   }
 
   applyAlign() // Resize box based on originalContent
-
-  while (blockContent.charAt(dollarEnd) === '$') dollarEnd++
-  while (blockContent.charAt(dollarStart - 1) === '$') dollarStart--
-  const contentBefore = blockContent.substring(0, dollarStart)
-  const contentAfter = blockContent.substring(dollarEnd, blockContent.length)
 
   parent.addEventListener('resize', applyAlign)
   // keep block in editing mode after mousedown
