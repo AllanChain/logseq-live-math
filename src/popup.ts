@@ -138,12 +138,16 @@ export async function openPopup(
   let done = false
   const wrapLaTeX = (latex: string) =>
     delim === '$' ? delim + latex + delim : delim + newline + latex + newline + delim
-
   const updateLaTeX = async () => {
     const insertedText = wrapLaTeX(mfe.getValue('latex-expanded'))
     const contentBeforeCaret = mfe.value ? contentBefore + insertedText : contentBefore
     await logseq.Editor.updateBlock(uuid, contentBeforeCaret + contentAfter)
     return contentBeforeCaret
+  }
+  const switchMode = async () => {
+    delim = delim === '$' ? '$$' : '$'
+    delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
+    await updateLaTeX()
   }
   let mouseMovement = ''
   // Avoid firing click after dragging
@@ -153,10 +157,12 @@ export async function openPopup(
   delimSwitch.addEventListener('mouseup', async (event) => {
     if (mouseMovement !== `${event.x},${event.y}`) return
     mouseMovement = ''
-    console.log(event)
-    delim = delim === '$' ? '$$' : '$'
-    delimSwitch.innerText = delim === '$' ? 'Inline Math' : 'Display Math'
-    await updateLaTeX()
+    await switchMode()
+  })
+  mfe.addEventListener('keydown', async (event) => {
+    if (event.key === '$' && event.ctrlKey) {
+      await switchMode()
+    }
   })
   clearButton.addEventListener('click', async () => {
     mfe.value = ''
