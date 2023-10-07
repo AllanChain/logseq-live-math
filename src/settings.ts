@@ -5,21 +5,21 @@ export const settingsConfig: SettingSchemaDesc[] = [
   {
     title: 'Enable `$$` trigger',
     description:
-      'MathLive will popup if `$$` is typed. You can still use inline math by unchecking `preferDisplay`',
+      'MathLive will popup if `$$` is typed. You can still use inline math.',
     key: 'dollarTrigger',
     type: 'boolean',
     default: true,
   },
   {
     title: 'Enable select-and-edit',
-    description: 'For example, when you select `$\\frac12$`, MathLive will pop up',
+    description: 'Select the math expression (including `$`s) and MathLive will pop up.',
     key: 'selectEdit',
     type: 'boolean',
     default: true,
   },
   {
     title: 'Modifier key for select-and-edit',
-    description: 'Require modifier key to be pressed for MathLive to pop up',
+    description: 'Require modifier key to be pressed while selecting for MathLive to pop up.',
     key: 'selectModifier',
     type: 'enum',
     default: '<none>',
@@ -29,14 +29,14 @@ export const settingsConfig: SettingSchemaDesc[] = [
   { title: 'Formatting', description: '', key: 'formatSettings', type: 'heading', default: null },
   {
     title: 'Prefer display mode',
-    description: 'When enabled, math will be inserted as display mode, i.e. `$$`',
+    description: 'When enabled, math will be inserted as display mode, i.e. `$$`.',
     key: 'preferDisplay',
     type: 'boolean',
     default: false,
   },
   {
     title: 'Prefer multiline for display math',
-    description: 'Use `$$\\n...\\n$$` instead of `$$...$$`',
+    description: 'Use `$$\\n...\\n$$` instead of `$$...$$` for display math.',
     key: 'preferMultiline',
     type: 'boolean',
     default: false,
@@ -44,8 +44,9 @@ export const settingsConfig: SettingSchemaDesc[] = [
   {
     title: 'Smart format',
     description:
-      'Intelligently determines whether to use inline or display mode, ' +
-      'honoring the preferDisplay option in case of ambiguity.',
+      'Smart use of inline or display mode when inserting: ' +
+      'inline for middle of the line and display for start of newline. ' +
+      '`preferDisplay` option will be honored in case of ambiguity.',
     key: 'smartFormat',
     type: 'boolean',
     default: true,
