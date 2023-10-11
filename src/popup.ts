@@ -177,7 +177,7 @@ export async function openPopup(
   })
   resetButton.addEventListener('click', async () => {
     mfe.value = originalContent
-    await updateLaTeX()
+    await logseq.Editor.updateBlock(uuid, contentBefore + originalContent + contentAfter)
   })
   mfe.onExport = (mfe, latex, range) => wrapLaTeX(mfe.getValue(range, 'latex-expanded'))
   mfe.addEventListener('input', async () => {
