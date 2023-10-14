@@ -44,8 +44,8 @@ export const settingsConfig: SettingSchemaDesc[] = [
   {
     title: 'Smart format',
     description:
-      'Smart use of inline or display mode when inserting: ' +
-      'inline for middle of the line and display for start of newline. ' +
+      'Determine inline or display mode for new math: ' +
+      'inline for middle of the line and display for start of newline (not new block). ' +
       '`preferDisplay` option will be honored in case of ambiguity.',
     key: 'smartFormat',
     type: 'boolean',
