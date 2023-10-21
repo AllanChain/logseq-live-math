@@ -15,7 +15,7 @@ export async function openPopup(
 ) {
   const textarea = parent.document.querySelector<HTMLTextAreaElement>(`textarea[id$="${uuid}"]`)
   if (textarea == null) {
-    logseq.UI.showMsg('Block changed!')
+    console.warn('[live-math] Block changed!')
     return
   }
   const blockContent = textarea.value

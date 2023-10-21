@@ -17,6 +17,16 @@ function main() {
   logseq.Editor.registerSlashCommand('math', async (event) => {
     openPopup(event.uuid)
   })
+  logseq.App.registerCommandShortcut(
+    // NOTE: not using `mode: 'editing'` because of Logseq bug
+    // https://github.com/logseq/logseq/issues/10392
+    { binding: 'mod+shift+m' },
+    async () => {
+      const block = await logseq.Editor.getCurrentBlock()
+      if (block === null) return
+      await openPopup(block.uuid)
+    },
+  )
   if (logseq.settings?.selectEdit) {
     logseq.Editor.onInputSelectionEnd(async (event) => {
       if (logseq.settings?.selectModifier !== '<none>') {
