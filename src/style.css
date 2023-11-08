@@ -90,6 +90,11 @@ div#mathlive-suggestion-popover {
     width: 100%;
     gap: 0;
 
+    &.ML__popover__current {
+      background-color: var(--ls-selection-background-color);
+      color: var(--ls-selection-text-color);
+    }
+
     & .ML__popover__latex {
       flex-grow: 1;
       text-align: start;
