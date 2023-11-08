@@ -18,6 +18,7 @@ div[data-ref='logseq-live-math'] {
     margin: 5px 0;
 
     & button {
+      font-family: tabler-icons, ui-font, system-ui;
       font-weight: bold;
       font-size: small;
 
