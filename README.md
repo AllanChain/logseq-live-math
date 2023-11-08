@@ -65,3 +65,5 @@ Logseq has some bugs for the `input-selection-end` event ([logseq/logseq#10106](
 If you want to change the default style, go to the settings page and switch `preferDisplay`.
 
 If you need to switch temporarily, you can click on the title of the popup to switch between `Inline Math` and `Display Math`. There is also a keyboard shortcut <kbd>Ctrl</kbd> + <kbd>$</kbd> (e.g. with US layout, it's <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>4</kbd>) which does the same job.
+
+Besides, there is `smartFormat` option, which will choose prefered style according to the context. You can disable it if you don't like it.
