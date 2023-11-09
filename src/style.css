@@ -74,6 +74,37 @@ div[data-ref='logseq-live-math'] {
 div#mathlive-suggestion-popover {
   background-color: var(--ls-primary-background-color);
   z-index: var(--ls-z-index-level-2);
+
+  & ul {
+    padding: 8px;
+    /* Limit min-width to reduce clutter */
+    min-width: 16ch;
+    gap: 0.25rem;
+  }
+
+  & li {
+    /* Suggestion item */
+    margin: 0;
+    padding: 0.25rem;
+    border-radius: 4px;
+    width: 100%;
+    gap: 0;
+
+    &.ML__popover__current {
+      background-color: var(--ls-selection-background-color);
+      color: var(--ls-selection-text-color);
+    }
+
+    & .ML__popover__latex {
+      flex-grow: 1;
+      text-align: start;
+      margin-right: 0.5rem;
+    }
+
+    & .ML__popover__command {
+      font-size: 1rem;
+    }
+  }
 }
 
 div#mathlive-suggestion-popover.top-tip::after {
@@ -84,7 +115,3 @@ div#mathlive-suggestion-popover.bottom-tip::after {
   border-top-color: var(--ls-primary-background-color);
 }
 
-li.ML__popover__current {
-  background-color: var(--ls-selection-background-color);
-  color: var(--ls-selection-text-color);
-}
