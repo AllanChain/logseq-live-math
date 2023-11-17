@@ -170,6 +170,7 @@ export async function openPopup(
     if (event.key === '$' && event.ctrlKey) {
       await switchMode()
     }
+    event.stopPropagation()
   })
   clearButton.addEventListener('click', async () => {
     mfe.value = ''
