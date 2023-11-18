@@ -67,3 +67,11 @@ If you want to change the default style, go to the settings page and switch `pre
 If you need to switch temporarily, you can click on the title of the popup to switch between `Inline Math` and `Display Math`. There is also a keyboard shortcut <kbd>Ctrl</kbd> + <kbd>$</kbd> (e.g. with US layout, it's <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>4</kbd>) which does the same job.
 
 Besides, there is `smartFormat` option, which will choose prefered style according to the context. You can disable it if you don't like it.
+
+### How to configure keybindings and inline shortcuts?
+
+If you clicked "Edit settings.json", you will notice this plugin comes with some examples.
+You can also read the [MathLive documentation](https://cortexjs.io/mathlive/guides/shortcuts/) to learn more.
+
+And don't forget to check out the [GitHub Discussion thread](https://github.com/AllanChain/logseq-live-math/discussions/14)!
+You are encouraged to share your configs there!
