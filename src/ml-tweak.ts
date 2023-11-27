@@ -10,7 +10,7 @@ export function configureMF(mfe: MathfieldElement) {
       ...logseq.settings?.keybindings,
     ]
   } catch (err) {
-    logseq.UI.showMsg(`Fail to configure MathLive keybindings: ${err}`)
+    logseq.UI.showMsg(`Fail to configure MathLive keybindings: ${err}`, 'error')
   }
   try {
     mfe.inlineShortcuts = {
@@ -18,6 +18,6 @@ export function configureMF(mfe: MathfieldElement) {
       ...logseq.settings?.inlineShortcuts,
     }
   } catch (err) {
-    logseq.UI.showMsg(`Fail to configure MathLive inline shortcuts: ${err}`)
+    logseq.UI.showMsg(`Fail to configure MathLive inline shortcuts: ${err}`, 'error')
   }
 }
