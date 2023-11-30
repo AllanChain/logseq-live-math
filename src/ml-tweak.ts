@@ -8,12 +8,13 @@ export function configureMF(mfe: MathfieldElement) {
     mfe.keybindings = [
       ...mfe.keybindings.filter(
         (keybinding) =>
-          !logseq.settings?.keybindings.some((k: Keybinding) => (
-            k.key === keybinding.key &&
+          !logseq.settings?.keybindings.some(
+            (k: Keybinding) =>
+              k.key === keybinding.key &&
               k.ifMode === keybinding.ifMode &&
               k.ifLayout === keybinding.ifLayout &&
-              k.ifPlatform === keybinding.ifPlatform
-          )),
+              k.ifPlatform === keybinding.ifPlatform,
+          ),
       ),
       ...logseq.settings?.keybindings,
     ]

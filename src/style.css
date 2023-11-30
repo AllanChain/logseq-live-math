@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%
+  height: 100%;
 }
 
 div[data-ref='logseq-live-math'] {
@@ -115,4 +115,3 @@ div#mathlive-suggestion-popover.top-tip::after {
 div#mathlive-suggestion-popover.bottom-tip::after {
   border-top-color: var(--ls-primary-background-color);
 }
-

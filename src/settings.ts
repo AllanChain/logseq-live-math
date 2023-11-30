@@ -4,8 +4,7 @@ export const settingsConfig: SettingSchemaDesc[] = [
   { title: 'Triggers', description: '', key: 'triggerSettings', type: 'heading', default: null },
   {
     title: 'Enable `$$` trigger',
-    description:
-      'MathLive will popup if `$$` is typed. You can still use inline math.',
+    description: 'MathLive will popup if `$$` is typed. You can still use inline math.',
     key: 'dollarTrigger',
     type: 'boolean',
     default: true,
