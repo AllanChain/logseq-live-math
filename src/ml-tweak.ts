@@ -22,7 +22,7 @@ export function configureMF(mfe: MathfieldElement) {
   }
   try {
     mfe.inlineShortcuts = {
-      ...mfe.inlineShortcuts,
+      ...(logseq.settings?.disableDefaultShortcuts ? null : mfe.inlineShortcuts),
       ...logseq.settings?.inlineShortcuts,
     }
   } catch (err) {

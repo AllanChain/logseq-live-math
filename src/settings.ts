@@ -112,4 +112,11 @@ export const settingsConfig: SettingSchemaDesc[] = [
       Logseq: '\\mathrm{Logseq}',
     },
   },
+  {
+    title: 'Disable default shortcuts',
+    description: 'Disable default inline shortcuts defined by MathLive.',
+    key: 'disableDefaultShortcuts',
+    type: 'boolean',
+    default: false,
+  },
 ]
