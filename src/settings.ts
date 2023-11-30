@@ -86,7 +86,9 @@ export const settingsConfig: SettingSchemaDesc[] = [
     description:
       'Configure [MathLive keybindings](https://cortexjs.io/mathlive/guides/shortcuts/#key-bindings).' +
       '\n\nBy default, this plugin includes `ctrl+b` to insert `\\mathbf` as an example. ' +
-      "You can add your own and delete this example if you don't want it.",
+      "You can add your own and delete this example if you don't want it.\n\n" +
+      'You can also check [this discussion](https://github.com/AllanChain/logseq-live-math/discussions/14) ' +
+      'for more examples.',
     key: 'keybindings',
     type: 'object',
     default: [
@@ -101,7 +103,9 @@ export const settingsConfig: SettingSchemaDesc[] = [
     description:
       'Configure [MathLive inline shortcuts](https://cortexjs.io/mathlive/guides/shortcuts/#inline-shortcuts).' +
       '\n\nBy default, this plugin inserts `\\mathrm{Logseq}` when you type `Logseq` as an example. ' +
-      "You can add your own and delete this example if you don't want it.",
+      "You can add your own and delete this example if you don't want it.\n\n" +
+      'You can also check [this discussion](https://github.com/AllanChain/logseq-live-math/discussions/14) ' +
+      'for more examples.',
     key: 'inlineShortcuts',
     type: 'object',
     default: {
