@@ -75,6 +75,8 @@ export async function openPopup(
   if (floatContent === null) return
 
   floatContent.title = '' // Only show the tooltip on hovering title bar, not content
+  // Avoid triggering resizing when clicking on MathLive menu
+  floatContent.addEventListener('pointerdown', (event) => event.stopPropagation())
 
   const mfe = parent.document.createElement('math-field') as MathfieldElement
   mfe.style.display = 'block'
