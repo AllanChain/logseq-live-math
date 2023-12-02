@@ -46,6 +46,11 @@ div[data-ref='logseq-live-math'] {
     --selection-background-color: var(--ls-selection-background-color);
     --primary: var(--ls-primary-theme-color, var(--ls-wb-text-color-blue));
     --text-font-family: KaTeX_Main, 'Times New Roman', serif;
+    --ui-menu-bg: var(--ls-secondary-background-color);
+    --ui-menu-bg-active: var(--ls-selection-background-color);
+    --ui-menu-text-active: var(--ls-selection-text-color);
+    --neutral-200: var(--ls-secondary-background-color);
+    --neutral-100: var(--ls-secondary-background-color);
 
     &::part(virtual-keyboard-toggle):hover {
       background-color: var(--ls-primary-background-color);
