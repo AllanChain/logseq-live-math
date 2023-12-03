@@ -4,7 +4,8 @@ export function configureMF(mfe: MathfieldElement) {
   mfe.smartFence = logseq.settings?.smartFence ?? true
   mfe.smartMode = logseq.settings?.smartMode ?? false
   mfe.smartSuperscript = logseq.settings?.smartSuperscript ?? false
-  mfe.menuItems = mfe.menuItems.filter(item => !item.id?.startsWith('ce-'))
+  // Filter out compute engine related stuffs
+  mfe.menuItems = mfe.menuItems.filter((item) => !item.id?.startsWith('ce-'))
   try {
     mfe.keybindings = [
       ...mfe.keybindings.filter(
