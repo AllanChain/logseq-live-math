@@ -18,7 +18,8 @@ export function configureMF(mfe: MathfieldElement) {
               k.ifPlatform === keybinding.ifPlatform,
           ),
       ),
-      ...logseq.settings?.keybindings,
+      // Allow disable builtin by set command to null
+      ...logseq.settings?.keybindings.filter((k: Keybinding) => !!k.command),
     ]
   } catch (err) {
     logseq.UI.showMsg(`Fail to configure MathLive keybindings: ${err}`, 'error')
