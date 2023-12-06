@@ -24,7 +24,7 @@ function main() {
     async () => {
       const block = await logseq.Editor.getCurrentBlock()
       if (block === null) return
-      await openPopup(block.uuid)
+      await openPopup(block.uuid, { searchMath: true })
     },
   )
   logseq.Editor.onInputSelectionEnd(async (event) => {

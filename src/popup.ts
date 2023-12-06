@@ -9,8 +9,9 @@ async function sleep(ms: number) {
 export async function openPopup(
   uuid: string,
   opts?: {
-    selectionStart: number
-    selectionEnd: number
+    selectionStart?: number
+    selectionEnd?: number
+    searchMath?: boolean
   },
 ) {
   const textarea = parent.document.querySelector<HTMLTextAreaElement>(`textarea[id$="${uuid}"]`)
@@ -21,10 +22,20 @@ export async function openPopup(
   const blockContent = textarea.value
   let dollarEnd = opts?.selectionEnd ?? textarea.selectionEnd
   let dollarStart = opts?.selectionStart ?? textarea.selectionStart
-  const originalContent = textarea.value.substring(dollarStart, dollarEnd)
   let originalValue = ''
   let delim = logseq.settings?.preferDisplay ? '$$' : '$'
   let newline = logseq.settings?.preferMultiline ? '\n' : ''
+
+  if (opts?.searchMath && dollarStart === dollarEnd) {
+    for (const match of blockContent.matchAll(/(\$+)([^$]+)\1/g)) {
+      if (match.index! <= dollarStart && dollarStart <= match.index! + match[0].length) {
+        dollarStart = match.index!
+        dollarEnd = dollarStart + match[0].length
+      }
+    }
+  }
+
+  const originalContent = textarea.value.substring(dollarStart, dollarEnd)
 
   while (blockContent.charAt(dollarEnd) === '$') dollarEnd++
   while (blockContent.charAt(dollarStart - 1) === '$') dollarStart--
