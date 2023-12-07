@@ -1,13 +1,14 @@
 name: Bug Report
 description: File a bug report
-title: "[Bug] "
-labels: ["bug"]
+title: '[Bug] '
+labels: ['bug']
 body:
   - type: markdown
     attributes:
       value: |
         This issue form is very simple.
         Thanks for taking the time to fill out this bug report!
+
   - type: textarea
     id: what-happened
     attributes:
@@ -19,34 +20,43 @@ body:
       placeholder: Tell us what you see!
     validations:
       required: true
+
   - type: input
-    id: version
+    id: logseq-version
     attributes:
       label: Logseq Version
       placeholder: 0.10.0
     validations:
       required: true
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Logseq Live Math Version
+      placeholder: 1.2.3
+    validations:
+      required: true
+
   - type: checkboxes
     id: checklist
     attributes:
-      label: Quick checklist
-      description: Please go through the checklist to help us debugging.
+      label: Quick check
+      description: Please search the issues before reporting.
       options:
         - label: There is no existing issue about this bug
           required: true
-        - label: This bug still happens after restarting Logseq
-        - label: This bug still happens with all other plugins disabled
-        - label: |
-            This bug still happens with default settings of the plugin.
-            (To revert to default config, remove and backup everything from the settings JSON)
-        - label: This bug does NOT happen with [MathLive demo](https://cortexjs.io/mathlive/demo/)
-        - label: |
-            This bug happens after I upgrade this plugin,
-            and I've read [the changelog](https://github.com/AllanChain/logseq-live-math/releases)
+
   - type: textarea
     id: addtional-context
     attributes:
       label: Additional context
-      description: What else is related to this bug?
-      placeholder: This field is not required.
-
+      description: |
+        What else is related to this bug? For example,
+        - Does it still happen after restarting Logseq?
+        - Does it still happen with all other plugins disabled?
+        - Does it still happen with default settings of the plugin?
+          (To revert to default config, remove and backup everything from the settings JSON)
+        - Does it happen with [MathLive demo](https://cortexjs.io/mathlive/demo/)?
+        - Does it happen after upgrading this plugin?
+          (Remember to read [the changelog](https://github.com/AllanChain/logseq-live-math/releases))
+      placeholder: This field is not required, but you are encouraged to provide more context.
