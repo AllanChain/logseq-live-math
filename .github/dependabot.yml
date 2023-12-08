@@ -8,5 +8,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "saturday"
     allow:
       - dependency-name: "mathlive"
