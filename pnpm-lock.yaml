@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   mathlive:
-    specifier: ^0.97.4
-    version: 0.97.4
+    specifier: ^0.98.3
+    version: 0.98.3
 
 devDependencies:
   '@logseq/libs':
@@ -521,8 +521,8 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /mathlive@0.97.4:
-    resolution: {integrity: sha512-F/TMpx+b5Da7RLS1ebRL3L+D7BvB0Lt9n8C4m2AR+o4T85M51Pzsygn+G2ncuqN8aaUySdFELrAIR0YBHzUbdw==}
+  /mathlive@0.98.3:
+    resolution: {integrity: sha512-HT2zCOFtXP9wK0dyALBgL22C2gPGvmyFytZaMt9XZuR4Ge0MP80ww/+zcVnQm5vWeHMXWYVh0pjr+ghyHgk4EQ==}
     engines: {node: '>=16.14.2', npm: '>=8.5.0'}
     dependencies:
       '@cortex-js/compute-engine': 0.22.0
