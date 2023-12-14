@@ -275,7 +275,7 @@ async function calcAlign(opt?: {
       .querySelector('math-field')
       ?.shadowRoot?.querySelector('.ML__mathlive')?.scrollWidth
     popup = {
-      width: scrollWidth ? Math.max(popupDefaultWidth, scrollWidth + 50) : popupContent.clientWidth,
+      width: scrollWidth ? Math.max(popupDefaultWidth, scrollWidth + 50) : popupContent.offsetWidth,
       marginLeft: parseStyle(popupContent.style.marginLeft),
       marginRight: parseStyle(popupContent.style.marginLeft),
       left: parseStyle(popupContent.style.left) + parseInt(popupContent.dataset.dx ?? '0'),
