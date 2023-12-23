@@ -208,10 +208,15 @@ export async function openPopup(
     done = true
     logseq.provideUI({ key: 'popup', template: '' }) // close popup
     const contentBeforeCaret = await updateLaTeX()
-    // HACK: `Editor.editBlock` does nothing, focusing using DOM ops
-    textarea.focus()
-    textarea.selectionStart = contentBeforeCaret.length
-    textarea.selectionEnd = contentBeforeCaret.length
+    // NOTE: `Editor.editBlock` doesn't focus if the textarea exists,
+    // so we need to focus using DOM operations.
+    if (parent.document.contains(textarea)) {
+      textarea.focus()
+      textarea.selectionStart = contentBeforeCaret.length
+      textarea.selectionEnd = contentBeforeCaret.length
+    } else {
+      logseq.Editor.editBlock(uuid, { pos: contentBeforeCaret.length })
+    }
   }
   confirmButton.addEventListener('click', insertLaTeX)
   mfe.addEventListener('change', async () => {
