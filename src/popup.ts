@@ -152,8 +152,17 @@ export async function openPopup(
   popupContent.querySelector('.draggable-handle')?.addEventListener('mouseup', applyAlign)
 
   let done = false
-  const wrapLaTeX = (latex: string) =>
-    delim === '$' ? delim + latex + delim : delim + newline + latex + newline + delim
+  const wrapLaTeX = (latex: string) => {
+    if (logseq.settings?.preferMultiline) {
+      latex = latex
+        .replaceAll('\\\\ ', '\\\\\n') // add new line after `\\`
+        .replaceAll(/(\\begin\{[^}]+\})/g, '\n$1\n') // `\begin` command on separate line
+        .replaceAll(/(\\end\{[^}]+\})/g, '\n$1\n')
+        .replaceAll(/\n+/g, '\n') // Trim extra `\n` between `\end` and `\begin`
+        .trim() // Trim extra `\n` at beginning
+    }
+    return delim === '$' ? delim + latex + delim : delim + newline + latex + newline + delim
+  }
   const updateLaTeX = async () => {
     const insertedText = wrapLaTeX(mfe.getValue('latex-expanded'))
     const contentBeforeCaret = mfe.value ? contentBefore + insertedText : contentBefore
