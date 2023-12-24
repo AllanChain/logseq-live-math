@@ -56,9 +56,9 @@ div[data-ref='logseq-live-math'] {
       background-color: var(--ls-primary-background-color);
       color: var(--ls-primary-text-color);
     }
-    &::part(virtual-keyboard-toggle):hover::after {
-      /* Hide 'Toggle Virtual Keyboard' tooltip which spoils popup layout */
-      display: none;
+    /* Hide 'Toggle Virtual Keyboard' tooltip which spoils popup layout */
+    &::part(virtual-keyboard-toggle)::after {
+      display: none !important;
     }
     &::part(container) {
       min-width: 200px; /* for inline math-field */
