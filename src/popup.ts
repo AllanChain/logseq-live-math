@@ -285,11 +285,13 @@ async function calcAlign(opt?: {
     popup.left = caret.rect.left + caret.left - popup.width / 4 - popup.marginLeft
     popup.top = caret.rect.top + caret.top + popupTopMargin
   } else {
-    const scrollWidth = popupContent
+    const mlContent = popupContent
       .querySelector('math-field')
-      ?.shadowRoot?.querySelector('.ML__content')?.scrollWidth
+      ?.shadowRoot?.querySelector('.ML__content') as HTMLElement | null | undefined
+    // NOTE: 10 means don't expand until content exceed by 10, AND shrink at step of 10
+    const widthToExpand = mlContent ? mlContent.scrollWidth - mlContent.offsetWidth - 10 : 0
     popup = {
-      width: scrollWidth ? Math.max(popupDefaultWidth, scrollWidth + 50) : popupContent.offsetWidth,
+      width: Math.max(popupDefaultWidth, popupContent.offsetWidth + widthToExpand),
       marginLeft: parseStyle(popupContent.style.marginLeft),
       marginRight: parseStyle(popupContent.style.marginLeft),
       left: parseStyle(popupContent.style.left) + parseInt(popupContent.dataset.dx ?? '0'),
