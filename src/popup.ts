@@ -202,7 +202,7 @@ export async function openPopup(
     mfe.value = originalContent
     await logseq.Editor.updateBlock(uuid, contentBefore + originalContent + contentAfter)
   })
-  mfe.onExport = (mfe, latex, range) => wrapLaTeX(mfe.getValue(range, 'latex-expanded'))
+  mfe.onExport = (mfe, _, range) => wrapLaTeX(mfe.getValue(range, 'latex-expanded'))
   mfe.addEventListener('input', async () => {
     await applyAlign()
     if (mfe.value.includes('placeholder')) return // not a complete formula
