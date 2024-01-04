@@ -153,7 +153,7 @@ export async function openPopup(
 
   let done = false
   const wrapLaTeX = (latex: string) => {
-    if (logseq.settings?.preferMultiline) {
+    if (delim !== '$' && logseq.settings?.preferMultiline) {
       latex = latex
         .replaceAll('\\\\ ', '\\\\\n') // add new line after `\\`
         .replaceAll(/(\\begin\{[^}]+\})/g, '\n$1\n') // `\begin` command on separate line
