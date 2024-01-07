@@ -101,14 +101,14 @@ export const settingsConfig: SettingSchemaDesc[] = [
     title: 'Inline shortcuts',
     description:
       'Configure [MathLive inline shortcuts](https://cortexjs.io/mathlive/guides/shortcuts/#inline-shortcuts).' +
-      '\n\nBy default, this plugin inserts `\\mathrm{Logseq}` when you type `Logseq` as an example. ' +
+      '\n\nBy default, this plugin inserts aligned placeholder when you type `align` as an example. ' +
       "You can add your own and delete this example if you don't want it.\n\n" +
       'You can also check [this discussion](https://github.com/AllanChain/logseq-live-math/discussions/14) ' +
       'for more examples.',
     key: 'inlineShortcuts',
     type: 'object',
     default: {
-      Logseq: '\\mathrm{Logseq}',
+      align: '\\begin{align*}\n#? &= #? \\\\\n #? &= #?\\end{align*}',
     },
   },
   {
