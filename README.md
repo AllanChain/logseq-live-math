@@ -60,10 +60,6 @@ Go to the settings page and disable them.
 For select-and-edit, it's also possible to require a modifier key to be pressed.
 For example, if you configured the key to be <kbd>Shift</kbd>, then you need to hold the <kbd>Shift</kbd> key while selecting, so that the popup will show. If not holding the key, nothing will happen.
 
-### I've selected the formula but nothing happens!
-
-Logseq has some bugs for the `input-selection-end` event ([logseq/logseq#10106](https://github.com/logseq/logseq/issues/10106)). Please try Logseq version `v0.9.17` or higher.
-
 ### How to switch between display math (`$$`) and inline math (`$`)?
 
 If you want to change the default style, go to the settings page and switch `preferDisplay`.
@@ -79,3 +75,18 @@ You can also read the [MathLive documentation](https://cortexjs.io/mathlive/guid
 
 And don't forget to check out the [GitHub Discussion thread](https://github.com/AllanChain/logseq-live-math/discussions/14)!
 You are encouraged to share your configs there!
+
+### How can I input `align` / `split` etc.?
+
+If you are using <kbd>Control</kbd> + <kbd>Enter</kbd>, you will find that MathLive doesn't handle this well (see [#21](https://github.com/AllanChain/logseq-live-math/issues/21)).
+
+As a workaround, you can create an inline shortcut:
+
+```json5
+"align": "\\begin{align*}\n#? &= #? \\\\\n #? &= #?\\end{align*}",
+```
+
+After typing "align", something like this will show
+
+![image](https://github.com/AllanChain/logseq-live-math/assets/36528777/59e533a2-20a9-445e-818c-88e1613ea205)
+
