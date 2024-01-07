@@ -20,7 +20,7 @@ https://github.com/AllanChain/logseq-live-math/assets/36528777/fc1fb5c8-9b78-456
 
 > [!Tip]
 >
-> The above video is accelerated. `//` used in video is a [custom shortcut](#how-to-configure-keybindings-and-inline-shortcuts).
+> The above video is accelerated. Some shortcuts in the video are [customized](https://github.com/AllanChain/logseq-live-math/discussions/14).
 > It also uses [logseq-display-math](https://github.com/AllanChain/logseq-display-math) to render inline math in display style.
 > Check it out for math render style, KaTeX macros, and more!
 
