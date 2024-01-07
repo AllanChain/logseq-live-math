@@ -153,6 +153,11 @@ export async function openPopup(
 
   let done = false
   const wrapLaTeX = (latex: string) => {
+    // HACK: `lines` environment is not supported by KaTeX.
+    // It was replaced by `\displaylines` in 0.98.5 which is also not supported.
+    if (latex.startsWith('\\begin{lines}')) {
+      latex = latex.replaceAll('{lines}', '{gather}')
+    }
     if (delim !== '$' && logseq.settings?.preferMultiline) {
       latex = latex
         .replaceAll('\\\\ ', '\\\\\n') // add new line after `\\`
