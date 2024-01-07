@@ -16,18 +16,19 @@
 
 logseq-live-math integrates [MathLive](https://cortexjs.io/mathlive/) into Logseq, providing a better experience using Logseq with a lot of math.
 
-![live-math-demo](.github/live-math-demo.gif)
+https://github.com/AllanChain/logseq-live-math/assets/36528777/fc1fb5c8-9b78-4562-8b4b-9b345dc2386f
 
-> **Note**
+> [!Tip]
 >
-> The above example uses [logseq-display-math](https://github.com/AllanChain/logseq-display-math) to render inline math in display style.
->
+> The above video is accelerated. `//` used in video is a [custom shortcut](#how-to-configure-keybindings-and-inline-shortcuts).
+> It also uses [logseq-display-math](https://github.com/AllanChain/logseq-display-math) to render inline math in display style.
 > Check it out for math render style, KaTeX macros, and more!
 
 ## Features
 
 - ⌨️ Easy and convenient ways to trigger the MathLive input
   1. Using <kbd>Control</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd> shortcut. Can rebind in Logseq settings
+
      It's recommended because it can both
      - create new math
      - edit existing math (just by placing input caret inside the math expression)
