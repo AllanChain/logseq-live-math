@@ -11,15 +11,15 @@
   "author": "Allan Chain",
   "license": "MIT",
   "dependencies": {
-    "mathlive": "^0.98.4"
+    "mathlive": "^0.98.6"
   },
   "devDependencies": {
-    "@logseq/libs": "^0.0.15",
-    "@tsconfig/recommended": "^1.0.3",
-    "esbuild": "^0.19.8",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.1.0",
-    "prettier": "^3.1.0"
+    "@logseq/libs": "^0.0.17",
+    "@tsconfig/recommended": "^1.0.6",
+    "esbuild": "^0.20.2",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5"
   },
   "logseq": {
     "title": "Live Math",
