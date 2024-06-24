@@ -1,6 +1,6 @@
 {
   "name": "logseq-live-math",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Type LaTeX in live mode!",
   "type": "module",
   "scripts": {
