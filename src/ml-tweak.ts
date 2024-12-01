@@ -32,4 +32,9 @@ export function configureMF(mfe: MathfieldElement) {
   } catch (err) {
     logseq.UI.showMsg(`Fail to configure MathLive inline shortcuts: ${err}`, 'error')
   }
+  try {
+    mfe.macros = { ...mfe.macros, ...logseq.settings?.macros }
+  } catch (err) {
+    logseq.UI.showMsg(`Fail to configure MathLive macros: ${err}`, 'error')
+  }
 }

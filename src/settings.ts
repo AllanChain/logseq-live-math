@@ -112,6 +112,25 @@ export const settingsConfig: SettingSchemaDesc[] = [
     },
   },
   {
+    title: 'Macros',
+    description:
+      'Configure [MathLive macros](https://cortexjs.io/mathlive/guides/macros/).' +
+      '\n\nOne trick is to copy over default macros with `expand: false` to avoid automatic macro expansion.\n\n' +
+      '**Note**: MathLive have [bugs](https://github.com/arnog/mathlive/issues/1565) with `expand: false`, ' +
+      'Use it with caution.\n\nYou can also check [this discussion]' +
+      '(https://github.com/AllanChain/logseq-live-math/discussions/14) for more examples.',
+    key: 'macros',
+    type: 'object',
+    default: {
+      phase: {
+        def: '\\enclose{phasorangle}{#1}',
+        args: 1,
+        captureSelection: false,
+        expand: false,
+      },
+    },
+  },
+  {
     title: 'Disable default shortcuts',
     description: 'Disable default inline shortcuts defined by MathLive.',
     key: 'disableDefaultShortcuts',
