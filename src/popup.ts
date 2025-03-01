@@ -154,7 +154,7 @@ export async function openPopup(
   let done = false
   const wrapLaTeX = (latex: string) => {
     // HACK: `\displaylines` is not supported by KaTeX.
-    const matchLines = latex.match(/^\{\\displaylines(?<content>.*)\}$/s)
+    const matchLines = latex.match(/^\\displaylines\{(?<content>.*)\}$/s)
     if (matchLines !== null && matchLines.groups !== undefined) {
       latex = `\\begin{gather*}${matchLines.groups.content}\\end{gather*}`
     }
@@ -266,7 +266,7 @@ async function calcAlign(opt?: {
   renew?: boolean
 }): Promise<UIBaseOptions['style']> {
   const popupMinHeight = 100
-  const popupTopMargin = opt?.multiline ?? false ? 60 : 30
+  const popupTopMargin = (opt?.multiline ?? false) ? 60 : 30
   const popupBottomMargin = 20
   const popupDefaultWidth = 300
   const clientWidth = parent.document.documentElement.clientWidth
