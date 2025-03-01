@@ -18,14 +18,13 @@ function main() {
     openPopup(event.uuid)
   })
   logseq.App.registerCommandShortcut(
-    // NOTE: not using `mode: 'editing'` because of Logseq bug
-    // https://github.com/logseq/logseq/issues/10392
-    { binding: 'mod+shift+m' },
+    { binding: 'mod+shift+m', mode: 'editing' },
     async () => {
       const block = await logseq.Editor.getCurrentBlock()
       if (block === null) return
       await openPopup(block.uuid, { searchMath: true })
     },
+    { label: 'Math trigger', key: 'trigger' },
   )
   logseq.Editor.onInputSelectionEnd(async (event) => {
     if (logseq.settings?.disabled || !logseq.settings?.selectEdit) return
