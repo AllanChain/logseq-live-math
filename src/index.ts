@@ -31,7 +31,7 @@ function main() {
     if (logseq.settings?.disabled || !logseq.settings?.selectEdit) return
     if (logseq.settings?.selectModifier !== '<none>') {
       const pressedKeys = parent.document.body.dataset.activeKeystroke?.split('+')
-      const requiredKeys = logseq.settings?.selectModifier.split('+')
+      const requiredKeys = (logseq.settings?.selectModifier as string | undefined)?.split('+')
       if (pressedKeys === undefined || requiredKeys === undefined) return
       if (requiredKeys.some((k: string) => !pressedKeys.includes(k))) {
         return
