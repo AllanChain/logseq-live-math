@@ -11,11 +11,13 @@
   "author": "Allan Chain",
   "license": "MIT",
   "dependencies": {
+    "is-hotkey": "^0.2.0",
     "mathlive": "^0.104.0"
   },
   "devDependencies": {
     "@logseq/libs": "^0.0.17",
     "@tsconfig/recommended": "^1.0.8",
+    "@types/is-hotkey": "^0.1.10",
     "esbuild": "^0.25.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",

@@ -34,6 +34,13 @@ export const settingsConfig: SettingSchemaDesc[] = [
     default: false,
   },
   {
+    title: 'Mode switch hotkey',
+    description: 'Hotkey to switch between inline and display math.',
+    key: 'switchHotkey',
+    type: 'string',
+    default: 'ctrl+shift+4',
+  },
+  {
     title: 'Prefer multiline for display math',
     description: 'Use `$$\\n...\\n$$` instead of `$$...$$` for display math.',
     key: 'preferMultiline',

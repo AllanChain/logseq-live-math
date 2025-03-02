@@ -1,5 +1,6 @@
 import type { UIBaseOptions } from '@logseq/libs/dist/LSPlugin.user'
 import type { MathfieldElement } from 'mathlive'
+import { isHotkey } from 'is-hotkey'
 import { configureMF } from './ml-tweak'
 
 interface ExtractOptions {
@@ -202,7 +203,8 @@ export class PopupManager {
       await this.switchMode()
     })
     this.mfe.addEventListener('keydown', async (event) => {
-      if (event.key === '$' && event.ctrlKey) {
+      const hotkey = (logseq.settings?.switchHotkey as string | undefined) ?? 'ctrl+shift+4'
+      if (isHotkey(hotkey, event)) {
         await this.switchMode()
       }
       event.stopPropagation()
