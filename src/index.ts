@@ -1,7 +1,7 @@
 import '@logseq/libs'
 import styleCSS from './style.css'
 import { settingsConfig } from './settings'
-import { openPopup } from './popup'
+import { PopupManager } from './popup'
 
 function injectMathLive() {
   const script = parent.document.createElement('script')
@@ -15,14 +15,14 @@ function main() {
   logseq.provideStyle(styleCSS)
   logseq.useSettingsSchema(settingsConfig)
   logseq.Editor.registerSlashCommand('math', async (event) => {
-    openPopup(event.uuid)
+    await PopupManager.openInstance(event.uuid)
   })
   logseq.App.registerCommandShortcut(
     { binding: 'mod+shift+m', mode: 'editing' },
     async () => {
       const block = await logseq.Editor.getCurrentBlock()
       if (block === null) return
-      await openPopup(block.uuid, { searchMath: true })
+      await PopupManager.openInstance(block.uuid, { searchMath: true })
     },
     { label: 'Math trigger', key: 'trigger' },
   )
@@ -40,7 +40,7 @@ function main() {
     if (!event.text.match(/^(\$+)([^$]+)\1$/)) return
     const block = await logseq.Editor.getCurrentBlock()
     if (block === null) return
-    openPopup(block.uuid, {
+    await PopupManager.openInstance(block.uuid, {
       selectionStart: event.start,
       selectionEnd: event.end,
     })
@@ -57,7 +57,7 @@ function main() {
     const block = await logseq.Editor.getCurrentBlock()
     if (block === null) return
     if (caret.pos > 1 && blockContent?.charAt(caret.pos - 2) === '$') {
-      openPopup(block.uuid)
+      await PopupManager.openInstance(block.uuid)
     }
   }
   parent.addEventListener('keydown', onDollar)
