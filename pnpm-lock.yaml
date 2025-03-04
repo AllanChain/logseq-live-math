@@ -18,8 +18,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0
       mathlive:
-        specifier: ^0.104.0
-        version: 0.104.0
+        specifier: 0.102.0
+        version: 0.102.0
     devDependencies:
       '@logseq/libs':
         specifier: ^0.0.17
@@ -45,8 +45,8 @@ importers:
 
 packages:
 
-  '@cortex-js/compute-engine@0.27.0':
-    resolution: {integrity: sha512-iMK2F/iwZGVCB4L/GiTmeQsRaor/5DvLgUfBNZEskfMAYxDeRu3qM1I68QnZ3c0oqMW2bTFn8GX+SEWmNNkMKA==}
+  '@cortex-js/compute-engine@0.24.1':
+    resolution: {integrity: sha512-B9pLaZFC1vBrL64yR2LQWy2sj1E/+wtwIVokPuPqX8YWXwj9W2AMVyS9pSMN8gEdjpAC50nSmtL6110Rgi7dKA==}
     engines: {node: '>=16.14.2', npm: '>=8.5.0'}
 
   '@esbuild/aix-ppc64@0.25.0':
@@ -246,9 +246,8 @@ packages:
     resolution: {integrity: sha512-/rFeCpNJQbhSZjGVwO9RFV3xPqbnERS8MmIQzCtD/zl6gpJuV/bMLuN92oG3F7d8oDEHHRrujSXNUr8fpjntKw==}
     engines: {node: '>=18'}
 
-  complex-esm@2.1.1-esm1:
-    resolution: {integrity: sha512-IShBEWHILB9s7MnfyevqNGxV0A1cfcSnewL/4uPFiSxkcQL4Mm3FxJ0pXMtCXuWLjYz3lRRyk6OfkeDZcjD6nw==}
-    engines: {node: '>=16.14.2', npm: '>=8.5.0'}
+  complex.js@2.4.2:
+    resolution: {integrity: sha512-qtx7HRhPGSCBtGiST4/WGHuW+zeaND/6Ld+db6PbrulIB1i2Ev/2UPiqcmpQNPSyfBKraC0EOvOKCB5dGZKt3g==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -382,9 +381,9 @@ packages:
   lower-case@2.0.2:
     resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
 
-  mathlive@0.104.0:
-    resolution: {integrity: sha512-RFVJajzFfhPxq+guj6VWsQ2HOjY3J0VEiZ2V6PvR0i5cj0ncUyNl9BMtQ4KZ6ROL7dB5RQmwuoFDKtgfMFuprg==}
-    engines: {node: '>=21.0.0', npm: '>=10.5.0'}
+  mathlive@0.102.0:
+    resolution: {integrity: sha512-tQ6Jtuqe+23BDJXl0B0THWJdvskx6yUPkXLIMaE445hXTlcS9j9Kb+tP+z1MOLvRSKRoZ8nh15vSJbunNJZsFw==}
+    engines: {node: '>=16.14.2', npm: '>=8.5.0'}
 
   merge-stream@2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -523,9 +522,9 @@ packages:
 
 snapshots:
 
-  '@cortex-js/compute-engine@0.27.0':
+  '@cortex-js/compute-engine@0.24.1':
     dependencies:
-      complex-esm: 2.1.1-esm1
+      complex.js: 2.4.2
       decimal.js: 10.5.0
 
   '@esbuild/aix-ppc64@0.25.0':
@@ -651,7 +650,7 @@ snapshots:
 
   commander@13.1.0: {}
 
-  complex-esm@2.1.1-esm1: {}
+  complex.js@2.4.2: {}
 
   cross-spawn@7.0.6:
     dependencies:
@@ -800,9 +799,9 @@ snapshots:
     dependencies:
       tslib: 2.6.2
 
-  mathlive@0.104.0:
+  mathlive@0.102.0:
     dependencies:
-      '@cortex-js/compute-engine': 0.27.0
+      '@cortex-js/compute-engine': 0.24.1
 
   merge-stream@2.0.0: {}
 

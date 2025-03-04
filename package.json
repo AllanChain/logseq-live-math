@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "is-hotkey": "^0.2.0",
-    "mathlive": "^0.104.0"
+    "mathlive": "0.102.0"
   },
   "devDependencies": {
     "@logseq/libs": "^0.0.17",
