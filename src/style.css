@@ -7,8 +7,9 @@
 }
 
 div[data-ref='logseq-live-math'] {
-  & .ls-ui-float-content {
-    background-color: var(--ls-secondary-background-color);
+  & .ls-ui-float-content,
+  .draggable-handle {
+    background-color: var(--ls-secondary-background-color, var(--rx-gray-02));
   }
 
   & .actions {
@@ -23,16 +24,16 @@ div[data-ref='logseq-live-math'] {
       font-size: small;
 
       &.clear-button {
-        color: var(--ls-error-color);
+        color: var(--ls-error-color, var(--rx-red-10));
       }
       &.reset-button {
-        color: var(--ls-warning-color);
+        color: var(--ls-warning-color, var(--rx-orange-10));
       }
       &.confirm-button {
-        color: var(--ls-success-color);
+        color: var(--ls-success-color, var(--rx-green-10));
       }
       &:disabled {
-        color: var(--ls-secondary-text-color);
+        color: var(--ls-secondary-text-color, var(--rx-gray-11));
       }
     }
   }
@@ -40,21 +41,21 @@ div[data-ref='logseq-live-math'] {
   & math-field {
     outline: none;
     border-radius: 0;
-    color: var(--ls-primary-text-color);
-    background-color: var(--ls-secondary-background-color);
+    color: var(--ls-primary-text-color, hsl(var(--primary)));
+    background-color: var(--ls-secondary-background-color, var(--rx-gray-02));
     --contains-highlight-background-color: var(--ls-block-highlight-color);
-    --selection-background-color: var(--ls-selection-background-color);
+    --selection-background-color: var(--ls-selection-background-color, var(--rx-blue-10));
     --primary: var(--ls-primary-theme-color, var(--ls-wb-text-color-blue));
     --text-font-family: KaTeX_Main, 'Times New Roman', serif;
-    --ui-menu-bg: var(--ls-secondary-background-color);
-    --ui-menu-bg-active: var(--ls-selection-background-color);
-    --ui-menu-text-active: var(--ls-selection-text-color);
-    --neutral-200: var(--ls-secondary-background-color);
-    --neutral-100: var(--ls-secondary-background-color);
+    --ui-menu-bg: var(--ls-secondary-background-color, var(--rx-gray-02));
+    --ui-menu-bg-active: var(--ls-selection-background-color, var(--rx-blue-10));
+    --ui-menu-text-active: var(--ls-selection-text-color, var(--rx-gray-01));
+    --neutral-200: var(--ls-secondary-background-color, var(--rx-gray-02));
+    --neutral-100: var(--ls-secondary-background-color, var(--rx-gray-02));
 
     &::part(virtual-keyboard-toggle):hover {
-      background-color: var(--ls-primary-background-color);
-      color: var(--ls-primary-text-color);
+      background-color: var(--ls-primary-background-color, var(--rx-gray-01));
+      color: var(--ls-primary-text-color, hsl(var(--primary)));
     }
     /* Hide 'Toggle Virtual Keyboard' tooltip which spoils popup layout */
     &::part(virtual-keyboard-toggle)::after {
@@ -67,18 +68,21 @@ div[data-ref='logseq-live-math'] {
 }
 
 .ML__keyboard {
-  --keyboard-background: var(--ls-secondary-background-color);
+  --keyboard-background: var(--ls-secondary-background-color, var(--rx-gray-02));
   --keyboard-accent-color: var(--ls-primary-theme-color, var(--ls-wb-text-color-blue));
-  --keyboard-toolbar-text: var(--ls-primary-text-color);
-  --keyboard-toolbar-background-hover: var(--ls-primary-background-color) !important;
-  --keycap-background: var(--ls-primary-background-color);
-  --keycap-text: var(--ls-secondary-text-color);
-  --keycap-secondary-background: var(--ls-tertiary-background-color);
-  --keycap-secondary-text: var(--ls-secondary-text-color);
+  --keyboard-toolbar-text: var(--ls-primary-text-color, hsl(var(--primary)));
+  --keyboard-toolbar-background-hover: var(
+    --ls-primary-background-color,
+    var(--rx-gray-01)
+  ) !important;
+  --keycap-background: var(--ls-primary-background-color, var(--rx-gray-01));
+  --keycap-text: var(--ls-secondary-text-color, var(--rx-gray-11));
+  --keycap-secondary-background: var(--ls-tertiary-background-color, var(--rx-gray-03));
+  --keycap-secondary-text: var(--ls-secondary-text-color, var(--rx-gray-11));
 }
 
 div#mathlive-suggestion-popover {
-  background-color: var(--ls-primary-background-color);
+  background-color: var(--ls-primary-background-color, var(--rx-gray-01));
   z-index: var(--ls-z-index-level-2);
 
   & ul {
@@ -95,10 +99,11 @@ div#mathlive-suggestion-popover {
     border-radius: 4px;
     width: 100%;
     gap: 0;
+    color: var(--ls-secondary-text-color, var(--rx-gray-11));
 
     &.ML__popover__current {
-      background-color: var(--ls-selection-background-color);
-      color: var(--ls-selection-text-color);
+      background-color: var(--ls-selection-background-color, var(--rx-blue-10));
+      color: var(--ls-selection-text-color, var(--rx-gray-01));
     }
 
     & .ML__popover__latex {
@@ -114,9 +119,9 @@ div#mathlive-suggestion-popover {
 }
 
 div#mathlive-suggestion-popover.top-tip::after {
-  border-bottom-color: var(--ls-primary-background-color);
+  border-bottom-color: var(--ls-primary-background-color, var(--rx-gray-01));
 }
 
 div#mathlive-suggestion-popover.bottom-tip::after {
-  border-top-color: var(--ls-primary-background-color);
+  border-top-color: var(--ls-primary-background-color, var(--rx-gray-01));
 }
