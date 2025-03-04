@@ -38,7 +38,9 @@ export class PopupManager {
   }
 
   public static async openInstance(uuid: string, opts?: ExtractOptions) {
-    if (PopupManager.instance?.mfe) return
+    if (PopupManager.instance) {
+      PopupManager.instance.close()
+    }
     if (PopupManager.instance === null) {
       PopupManager.instance = new PopupManager()
     }
