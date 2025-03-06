@@ -131,9 +131,6 @@ export class PopupManager {
   }
 
   private async createPopup() {
-    // Make sure the previous one is closed,
-    // so that Logseq will honor the style provided.
-    logseq.provideUI({ key: 'popup', template: '' })
     logseq.provideUI({
       key: 'popup',
       template: '<span></span>',
