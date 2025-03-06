@@ -62,6 +62,9 @@ div[data-ref='logseq-live-math'] {
     &::part(virtual-keyboard-toggle)::after {
       display: none !important;
     }
+    &::part(menu-toggle)::after {
+      display: none !important;
+    }
     &::part(container) {
       min-width: 200px; /* for inline math-field */
     }
