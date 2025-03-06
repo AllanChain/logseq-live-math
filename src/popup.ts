@@ -152,8 +152,6 @@ export class PopupManager {
     if (floatContent === null) return
 
     floatContent.title = '' // Only show the tooltip on hovering title bar, not content
-    // Avoid triggering resizing when clicking on MathLive menu
-    floatContent.addEventListener('pointerdown', (event) => event.stopPropagation())
 
     this.mfe = parent.document.createElement('math-field') as MathfieldElement
     this.mfe.style.display = 'block'
@@ -211,6 +209,8 @@ export class PopupManager {
       }
       event.stopPropagation()
     })
+    // Avoid triggering resizing when clicking on MathLive menu
+    this.mfe.addEventListener('pointerdown', (event) => event.stopPropagation())
     clearButton.addEventListener('click', async () => {
       if (!this.mfe) return
       this.mfe.value = ''
