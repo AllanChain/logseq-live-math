@@ -362,8 +362,9 @@ async function calcAlign(opt?: {
     const mlContent = popupContent
       .querySelector('math-field')
       ?.shadowRoot?.querySelector('.ML__content') as HTMLElement | null | undefined
-    // NOTE: 10 means don't expand until content exceed by 10, AND shrink at step of 10
-    const widthToExpand = mlContent ? mlContent.scrollWidth - mlContent.offsetWidth - 10 : 0
+
+    const widthToExpand = mlContent ? mlContent.scrollWidth - mlContent.offsetWidth : 0
+
     popup = {
       width: Math.max(popupDefaultWidth, popupContent.offsetWidth + widthToExpand),
       marginLeft: parseStyle(popupContent.style.marginLeft),
