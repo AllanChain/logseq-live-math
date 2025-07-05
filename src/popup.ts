@@ -267,6 +267,7 @@ export class PopupManager {
     if (matchLines !== null && matchLines.groups !== undefined) {
       latex = `\\begin{gather*}${matchLines.groups.content}\\end{gather*}`
     }
+    latex = latex.replaceAll('\\placeholder{}', '') // remove empty placeholders
     if (this.delim !== '$' && logseq.settings?.preferMultiline) {
       latex = latex
         .replaceAll('\\\\ ', '\\\\\n') // add new line after `\\`
