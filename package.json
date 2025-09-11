@@ -18,9 +18,9 @@
     "@logseq/libs": "^0.0.17",
     "@tsconfig/recommended": "^1.0.10",
     "@types/is-hotkey": "^0.1.10",
-    "esbuild": "^0.25.5",
+    "esbuild": "^0.25.9",
     "husky": "^9.1.7",
-    "lint-staged": "^15.5.2",
+    "lint-staged": "^16.1.6",
     "prettier": "^3.6.2"
   },
   "logseq": {
