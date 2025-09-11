@@ -109,6 +109,7 @@ export const settingsConfig: SettingSchemaDesc[] = [
     description:
       'Configure [MathLive inline shortcuts](https://cortexjs.io/mathlive/guides/shortcuts/#inline-shortcuts).' +
       '\n\nBy default, this plugin inserts aligned placeholder when you type `align` as an example. ' +
+      'Some other tweaks are also added.' +
       "You can add your own and delete this example if you don't want it.\n\n" +
       'You can also check [this discussion](https://github.com/AllanChain/logseq-live-math/discussions/14) ' +
       'for more examples.',
@@ -116,6 +117,7 @@ export const settingsConfig: SettingSchemaDesc[] = [
     type: 'object',
     default: {
       align: '\\begin{align*}\n#? &= #? \\\\\n #? &= #?\\end{align*}',
+      "''": '^{\\prime\\prime}', // MathLive set this to \doubleprime which is not supported by KaTeX
     },
   },
   {
