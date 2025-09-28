@@ -11,6 +11,7 @@
   "author": "Allan Chain",
   "license": "MIT",
   "dependencies": {
+    "@cortex-js/compute-engine": "^0.30.2",
     "is-hotkey": "^0.2.0",
     "mathlive": "0.102.0"
   },
